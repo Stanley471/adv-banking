@@ -1,6 +1,9 @@
 <!doctype html>
 <html class="no-js" lang="en">
 
+<!-- ============================================================
+     HEAD SECTION - Meta tags, Title, and Metadata
+     ============================================================ -->
 <head>
     <title>{{ $title }} - {{$set->site_name}}</title>
     <meta charset="utf-8" />
@@ -12,6 +15,21 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="description" content="{{$set->site_desc}}" />
     <link rel="shortcut icon" href="{{asset('asset/images/favicon.png')}}" />
+    
+    <!-- ============================================================
+         CSS STYLESHEETS - External libraries and custom styles
+         ============================================================ -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+
     <link rel="stylesheet" href="{{asset('front/css/theme.css')}}" type="text/css" media="all">
     <link rel="preload" media="screen" href="{{asset('front/vendor/boxicons/css/boxicons.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="preload" media="screen" href="{{asset('front/vendor/lightgallery/css/lightgallery-bundle.min.css')}}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -24,15 +42,21 @@
     @include('partials.font')
 </head>
 
+<!-- ============================================================
+     BODY SECTION - Main content area
+     ============================================================ -->
 <body>
     <main class="page-wrapper">
+        <!-- ============================================================
+             HEADER/NAVIGATION SECTION
+             ============================================================ -->
         <header class="header navbar navbar-expand-lg position-absolute navbar-sticky @if(url()->current() == route('home')) navbar-dark @else navbar-light @endif">
             <div class="container px-3">
                 <a href="{{route('home')}}" class="navbar-brand pe-3">
                     @if(url()->current() == route('home'))
-                    <img src="{{asset('asset/images/dark_logo.png')}}"  width="200" alt="{{$set->site_name}}" loading="lazy">
+                    <img src="{{asset('asset/images/maccity logo.png')}}"  width="200" alt="{{$set->site_name}}" loading="lazy">
                     @else
-                    <img src="{{asset('asset/images/logo.png')}}" width="200" alt="{{$set->site_name}}" loading="lazy">
+                    <img src="{{asset('asset/images/maccity logo.png')}}" width="200" alt="{{$set->site_name}}" loading="lazy">
                     @endif
                 </a>
                 <div id="navbarNav" class="offcanvas offcanvas-end mt-3">
@@ -41,6 +65,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                        <!-- ============================================================
+                             MOBILE MENU / NAVIGATION ITEMS
+                             ============================================================ -->
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a href="{{route('about')}}" class="nav-link fw-medium fs-sm">{{__('ABOUT')}}</a>
@@ -60,6 +87,9 @@
                 <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- ============================================================
+                     LOGIN & REGISTER BUTTONS (Desktop)
+                     ============================================================ -->
                 <a href="{{route('login')}}" class="d-none d-lg-inline-flex me-4 text-decoration-none @if(url()->current() == route('home')) text-white @else text-dark @endif" rel="noopener">
                     {{__('Log In')}}
                 </a>
@@ -68,12 +98,24 @@
                 </a>
             </div>
         </header>
+        
+        <!-- ============================================================
+             PAGE CONTENT - Yielded from child views
+             ============================================================ -->
         @yield('content')
+        
+        <!-- ============================================================
+             FOOTER SECTION
+             ============================================================ -->
         <footer class="footer dark-mode border-top border-light py-5 bg-dark" data-jarallax data-img-position="0% 100%" data-speed="0.5">
             <div class="container pt-lg-4">
                 <div class="row pb-5">
                     <div class="col-xl-12 col-lg-12 col-md-12 pt-4 pt-md-1 pt-lg-0">
+                        <!-- ============================================================
+                             FOOTER LINKS - Company, Resources, Legal, Contact
+                             ============================================================ -->
                         <div id="footer-links" class="row">
+                            <!-- Company Links -->
                             <div class="col-xl-3 col-lg-3 col-6">
                                 <h6 class="mb-2">{{__('Company')}}</h6>
                                 <ul class="nav flex-column mb-2 mb-lg-0">
@@ -84,6 +126,7 @@
                                     <li class="nav-item"><a href="{{route('contact')}}" class="footer-link d-inline-block px-0 pt-1 pb-2">{{__('Contact Us')}}</a></li>
                                 </ul>
                             </div>
+                            <!-- Resources Links -->
                             <div class="col-xl-3 col-lg-3 col-6 pt-2 pt-lg-0">
                                 <h6 class="mb-2">{{__('Resources')}}</h6>
                                 <ul class="nav flex-column mb-2 mb-lg-0 mb-3">
@@ -94,6 +137,7 @@
                                     @endforeach
                                 </ul>
                             </div>
+                            <!-- Legal Links -->
                             <div class="col-xl-3 col-lg-3 col-6 pt-2 pt-lg-0">
                                 <h6 class="mb-2">{{__('Legal')}}</h6>
                                 <ul class="nav flex-column mb-2 mb-lg-0">
@@ -101,6 +145,7 @@
                                     <li class="nav-item"><a href="{{route('privacy')}}" class="footer-link d-inline-block px-0 pt-1 pb-2">{{__('Privacy Policy')}}</a></li>
                                 </ul>
                             </div>
+                            <!-- Contact Information -->
                             <div class="col-xl-3 col-lg-3 col-6 pt-2 pt-lg-0">
                                 <h6 class="mb-2">{{__('Contact')}}</h6>
                                 <p class="fs-sm pb-lg-3 mb-0 text-dark"><a class="footer-link" href="mailto:{{$set->email}}"><i class="fal fa-envelope"></i> {{$set->email}}</a></p>
@@ -117,7 +162,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- ============================================================
+                         LANGUAGE & ADDRESS SECTION
+                         ============================================================ -->
                     <div class="col-lg-4 col-md-4">
+                        <!-- Language Dropdown -->
                         @if($set->language==1)
                         <div class="btn-group dropdown mb-5">
                             <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle me-5 text-dark" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -130,6 +179,7 @@
                             </div>
                         </div>
                         @endif
+                        <!-- Address Information -->
                         @if(getUi()->address1_t)
                         <p class="fs-sm pb-lg-3 mb-1 text-dark"><span class="fi fi-{{strtolower(getUi()->address1_c)}} me-2 fis fs-sm rounded-4 text-dark"></span> {{getUi()->address1_t}}</p>
                         @endif
@@ -141,6 +191,9 @@
                         @endif
                     </div>
                 </div>
+                <!-- ============================================================
+                     COPYRIGHT & DISCLAIMER
+                     ============================================================ -->
                 <div class="space-1">
                     <!-- Copyright -->
                     <div class="w-md-75 text-lg-center mx-lg-auto">
@@ -153,14 +206,26 @@
         </footer>
 
 
-        <!-- Back to top button -->
+        <!-- ============================================================
+             BACK TO TOP BUTTON
+             ============================================================ -->
         <a href="#top" class="btn-scroll-top" data-scroll>
             <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">{{__('Top')}}</span>
             <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
         </a>
     </main>
+    
+    <!-- ============================================================
+         THIRD-PARTY INTEGRATIONS
+         ============================================================ -->
+    <!-- Live Chat -->
     {!!$set->livechat!!}
+    <!-- Analytics -->
     {!!$set->analytic_snippet!!}
+    
+    <!-- ============================================================
+         JAVASCRIPT LIBRARIES & SCRIPTS
+         ============================================================ -->
     <script src="{{asset('front/vendor/jquery/dist/jquery.min.js')}}"></script>
     <script src="{{asset('front/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('front/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js')}}"></script>
@@ -180,8 +245,15 @@
     <script src="{{asset('front/js/cookie.js')}}"></script>
     <script src="{{asset('front/js/toast.js')}}"></script>
     <script src="{{asset('asset/fonts/fontawesome/js/all.js')}}"></script>
+    
+    <!-- ============================================================
+         PAGE-SPECIFIC SCRIPTS (from child views)
+         ============================================================ -->
     @yield('script')
 
+    <!-- ============================================================
+         SESSION & TOAST NOTIFICATIONS
+         ============================================================ -->
     @if (session('success'))
     <script>
         "use strict";
@@ -200,6 +272,9 @@
     </script>
     @endif
 
+    <!-- ============================================================
+         RECAPTCHA V3 INITIALIZATION
+         ============================================================ -->
     @if($set->recaptcha==1)
     {!! RecaptchaV3::initJs() !!}
     @endif

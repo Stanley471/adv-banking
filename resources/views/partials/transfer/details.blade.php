@@ -1,0 +1,132 @@
+@foreach($transactions as $k=>$val)
+<div wire:ignore.self id="kt_trx_{{$val->id}}" class="bg-white" data-kt-drawer="true" data-kt-drawer-activate="true" data-kt-drawer-toggle="#kt_trx_{{$val->id}}_button" data-kt-drawer-close="#kt_trx_{{$val->id}}_close">
+    <div class="card w-100">
+        <div class="card-header pe-5 border-0">
+            <div class="card-title">
+                <div class="d-flex justify-content-center flex-column me-3">
+                    <div class="fs-4 fw-bolder text-gray-900 text-hover-primary me-1 lh-1">{{__('Transaction Details')}}</div>
+                </div>
+            </div>
+            <div class="card-toolbar">
+                <div class="btn btn-sm btn-icon btn-icon-dark btn-active-light-primary" data-kt-drawer-dismiss="true" id="kt_trx_{{$val->id}}_close">
+                    <span class="svg-icon svg-icon-2">
+                        <i class="fal fa-times"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-wrap">
+            <div class="btn-wrapper text-center mb-3">
+                <div class="symbol symbol-100px symbol-circle me-5 mb-10">
+                    <div class="symbol-label fs-1 text-info bg-light-info">
+                        @if($val->trx_type == 'debit')
+                        <i class="fal fa-minus fa-2x"></i>
+                        @else
+                        <i class="fal fa-plus fa-2x"></i>
+                        @endif
+                    </div>
+                </div>
+                <p class="text-dark fs-1 fw-bolder">{{$currency->currency_symbol.currencyFormat(number_format($val->amount, 2)).' '.$currency->currency}}</p>
+            </div>
+            <div class="d-flex flex-column">
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Reference')}}: {{$val->ref_id}} <i class="fal fa-clone castro-copy fs-5" data-clipboard-text="{{$val->ref_id}}" title="Copy"></i></span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Charge')}}: {{$currency->currency_symbol.currencyFormat(number_format($val->charge, 2)).' '.$currency->currency}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Date')}}: {{$val->created_at->toDayDateTimeString()}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Type')}}: {{ucwords(str_replace('_', ' ', $val->type))}}</span>
+                </li>
+                @if($val->type == 'deposit')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Method')}}: {{$val?->gateway?->name}}</span>
+                </li>
+                @elseif($val->type == 'bank_transfer')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Bank Reference')}}: {{$val->bank_reference}}</span>
+                </li>
+                @elseif($val->type == 'payout')
+                @if($val->acct_id != null)
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Bank')}}: {{$val?->acct?->bank?->title}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Account Number')}}: ******* {{substr($val?->acct?->acct_no, -4)}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Account Name')}}: {{$val?->acct?->acct_name}}</span>
+                </li>
+                @else
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Payout Method')}}: {{$val?->withdrawMethod?->name}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Details')}}: {{$val->details}}</span>
+                </li>
+                @endif
+                @elseif($val->type == 'investment_fee')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Name')}}: {{$val?->followed?->plan?->name}}</span>
+                </li>
+                @elseif($val->type == 'loan_payment')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Name')}}: {{$val->installment?->plan?->name}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Application Reference')}}: {{$val->installment?->application?->ref_id}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Installment Reference')}}: {{$val->installment?->ref_id}}</span>
+                </li>
+                @elseif($val->type == 'investment_returns')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Name')}}: {{$val?->followed?->plan?->name}}</span>
+                </li>
+                @elseif($val->type == 'savings_deposit' || $val->type == 'savings_withdraw' || $val->type == 'savings_return')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Name')}}: {{($val?->savings?->type == 'circle') ? $val?->savings?->circle?->name : $val?->savings?->name}}</span>
+                </li>
+                @if($val->savings->type == 'duo')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('By')}}: {{$val?->user?->business?->name}}</span>
+                </li>
+                @endif
+                @elseif($val->type == 'debit_transfer')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Recipient')}}: {{$val?->beneficiary?->recipient?->business?->name}}</span>
+                </li>
+                @elseif($val->type == 'credit_transfer')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Sender')}}: {{$val?->sender?->business?->name}}</span>
+                </li>
+                @elseif($val->type == 'unit_purchase' || $val->type == 'unit_sale' || $val->type == 'dividend_return')
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Name')}}: {{$val?->units?->plan?->name}}</span>
+                </li>
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Units')}}: {{$val?->units?->units}}</span>
+                </li>
+                @endif
+                <li class="d-flex align-items-center py-2">
+                    <span class="bullet me-5 bg-info bullet-vertical"></span> <span>{{__('Status')}}:
+                        @if($val->status == 'success')
+                        <span class="badge badge-pill badge-success badge-sm">{{__('Success')}}</span>
+                        @elseif($val->status == 'pending')
+                        <span class="badge badge-pill badge-info badge-sm">{{__('Pending')}}</span>
+                        @elseif($val->status == 'failed')
+                        <span class="badge badge-pill badge-danger badge-sm">{{__('Failed')}}</span>
+                        @elseif($val->status == 'cancelled')
+                        <span class="badge badge-pill badge-danger badge-sm">{{__('Cancelled')}}</span>
+                        @endif
+                    </span>
+                </li>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach

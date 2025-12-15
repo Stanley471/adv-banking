@@ -1,10 +1,26 @@
 <div>
     <!-- Styles scoped to this login component: card size, background, and underline inputs -->
     <style>
-        .login-card { width: 75%; min-width: 0;  border: 3px solid grey; }
+        .login-card { width: 120%; min-width: 0;  border: 10px solid grey; }
         .login-card .card-body { padding: 1.5rem; }
-        .underline-input { border: 0; border-bottom: 1px solid #d1d5db; border-radius: 0; box-shadow: none; background-color: transparent; } !important;
-        .underline-input:focus { box-shadow: none; border-bottom-color: #0d6efd; outline: none; }
+       .underline-input {
+    width: 100% !important;
+    box-sizing: border-box;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    border: 0 !important;
+    border-bottom: 1px solid #d1d5db !important;
+
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    background-color: transparent !important;
+    color: #fff;
+}
+
+        .underline-input:focus { box-shadow: none; border-bottom-color: #0d6efd; outline: none; color: #ffffff }
         @media (max-width: 576px) { .login-card { width: 92%; } }
 
         .card {
@@ -86,7 +102,8 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-lg btn-info btn-block fw-bolder me-3 my-2">
+                    <button style="background: #0d6efd; border: none;" type="submit" class="btn btn-lg btn-info w-100 fw-bolder my-2">
+
                         <span wire:loading.remove wire:target="submitLogin"><?php echo e(__('Sign In')); ?></span>
                         <span wire:loading wire:target="submitLogin"><?php echo e(__('Signing In...')); ?></span>
                     </button>

@@ -4,15 +4,15 @@
     <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('auth.login', ['set' => $set])->html();
-} elseif ($_instance->childHasBeenRendered('zp3SvaJ')) {
-    $componentId = $_instance->getRenderedChildComponentId('zp3SvaJ');
-    $componentTag = $_instance->getRenderedChildComponentTagName('zp3SvaJ');
+} elseif ($_instance->childHasBeenRendered('VBSv9WR')) {
+    $componentId = $_instance->getRenderedChildComponentId('VBSv9WR');
+    $componentTag = $_instance->getRenderedChildComponentTagName('VBSv9WR');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('zp3SvaJ');
+    $_instance->preserveRenderedChild('VBSv9WR');
 } else {
     $response = \Livewire\Livewire::mount('auth.login', ['set' => $set]);
     $html = $response->html();
-    $_instance->logRenderedChild('zp3SvaJ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('VBSv9WR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -20,4 +20,6 @@ echo $html;
 </div>
 <?php echo $__env->make('partials.external', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
+
+
 <?php echo $__env->make('auth.menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\adv-banking\resources\views/auth/login.blade.php ENDPATH**/ ?>

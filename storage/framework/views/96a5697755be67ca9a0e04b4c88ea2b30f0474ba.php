@@ -2,28 +2,50 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
-<section class="overflow-hidden pt-5 pb-1 bg-dark dd-bg">
-    <div class="container pt-3 pt-sm-4 pt-xl-5">
-        <div class="row">
-            <div class="col-md-6 d-flex flex-column mt-md-4 pt-5 pb-3 pb-sm-4 py-md-5">
-                <h1 class="display-5 pb-3 text-white">
-                    <?php echo e(getUi()->h1_t); ?>
 
-                </h1>
-                <p class="fs-3 text-start text-md-start pb-2 pb-md-3 mb-3 text-white"><?php echo e(getUi()->h1_b); ?></p>
-                <div class="d-md-flex align-items-md-start">
-                    <a href="<?php echo e(route('register')); ?>" class="btn btn-info flex-shrink-0 me-md-4 mb-md-0 mb-sm-4 mb-3 rounded-pill"><?php echo e(__('Open an account')); ?></a>
-                </div>
-                <div class="d-flex align-items-center justify-content-center justify-content-md-start text-start pt-4 pt-lg-5 mt-xxl-5">
-                    <div class="text-light"><?php echo e(getUi()->h6_t); ?></div>
-                </div>
+<section class="main-hero" aria-label="Hero Area">
+
+    <!-- Desktop Background -->
+    <div class="hero-image-bg d-none d-md-block"
+         style="background-image: url('<?php echo e(asset('asset/images/hero.jpg')); ?>');">
+    </div>
+    
+
+    <!-- Mobile Background -->
+    <div class="hero-image-bg d-block d-md-none"
+         style="background-image: url('<?php echo e(asset('asset/images/hero.jpg')); ?>');">
+    </div>
+
+    <!-- Content -->
+    <div class="main-hero__container">
+        <div class="main-hero__content">
+            <div class="main-hero__header">
+                <p class="main-hero__title">
+                    Bank from home, or on-the-go, that's Mac City Credit Capital
+                </p>
+                <p class="main-hero__subtitle">
+                    We do banking  
+                    differently. We believe that people come first, and that everyone deserves a great experience every step of the way – whether it’s face to face, over the phone, online or on our app.
+                </p>
             </div>
-            <div class="col-md-6 text-md-end text-center pt-5">
-                <img src="<?php echo e(asset('asset/images/'.getUi()->image1)); ?>" style="max-width:100%; height:auto;">
-            </div>
+
+            <ul class="main-hero__btns">
+                <li>
+                    <a href="https://Maccitycredcap.com/online" class="button--primary">INTERNET BANKING</a>
+                </li>
+                <li>
+                    <a href="https://Maccitycredcap.com/open-account.php" class="button--navy-outline">OPEN ACCOUNT</a>
+                </li>
+            </ul>
         </div>
     </div>
 </section>
+
+
+
+
+
+
 <section class="container py-5 mt-md-3 my-lg-5">
     <div class="row">
         <div class="col-md-12">

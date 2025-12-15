@@ -1,0 +1,128 @@
+/* ==================================================
+   LOGIN PAGE CUSTOM CSS - HIGH SPECIFICITY
+   This will override any other CSS
+================================================== */
+
+/* Scope everything to body.login-page to avoid affecting other pages */
+body.login-page {
+    background-image: url('../images/login-bg.jpg') !important; /* your background */
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    min-height: 100vh !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* Center login card */
+body.login-page .card {
+    max-width: 500px !important;
+    margin: 4rem auto !important;
+    border-radius: 20px !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(12px) !important;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.35) !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* Card body padding */
+body.login-page .card-body.m-5 {
+    padding: 3rem !important;
+    color: #fff !important;
+}
+
+/* Headings */
+body.login-page .card-body h1,
+body.login-page .card-body .fw-bold,
+body.login-page .card-body .text-dark {
+    color: #fff !important;
+}
+
+/* Labels */
+body.login-page .card-body .form-label {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500 !important;
+}
+
+/* Inputs */
+body.login-page .card-body .form-control {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1rem !important;
+}
+
+body.login-page .card-body .form-control:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px #0d6efd !important;
+    background-color: rgba(255,255,255,0.25) !important;
+}
+
+/* Password visibility icon */
+body.login-page .input-password i {
+    color: #fff !important;
+}
+
+/* Links */
+body.login-page a {
+    color: #0d6efd !important;
+    text-decoration: none !important;
+}
+
+body.login-page a:hover {
+    text-decoration: underline !important;
+}
+
+/* Checkbox */
+body.login-page .form-check-input {
+    accent-color: #0d6efd !important;
+}
+
+body.login-page .form-check-label {
+    color: rgba(255,255,255,0.9) !important;
+}
+
+/* Buttons */
+body.login-page .btn-info {
+    border-radius: 50px !important;
+    width: 100% !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 0 !important;
+    background-color: #0d6efd !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+}
+
+body.login-page .btn-info:hover {
+    background-color: #0b53c1 !important;
+}
+
+/* Social buttons */
+body.login-page .btn-secondary {
+    border-radius: 50px !important;
+    width: 100% !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Social button icons */
+body.login-page .btn-secondary img {
+    height: 20px !important;
+    margin-right: 0.75rem !important;
+}
+
+/* Responsive adjustments */
+@media(max-width: 768px) {
+    body.login-page .card {
+        margin: 2rem 1rem !important;
+    }
+
+    body.login-page .card-body.m-5 {
+        padding: 2rem !important;
+    }
+}

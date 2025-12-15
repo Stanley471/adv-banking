@@ -12,26 +12,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="shortcut icon" href="{{asset('asset/images/favicon.png')}}" />
   <link href="{{asset('asset/fonts/fontawesome/css/all.css')}}" rel="stylesheet" type="text/css">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <link href="{{asset('dashboard/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('dashboard/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('dashboard/css/style.qbundle.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
   @livewireStyles
   @yield('css')
   @include('partials.font')
+   <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+  
 </head>
 
-<body id="kt_body" class="bg-light auth-bg header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-fixed aside-default-enabled">
-  <div class="page-loading active text-indigo">
+
+  <body style="background: url('{{ asset('asset/images/login_bg.jpg') }}') no-repeat center center fixed; background-size: cover;">
+ <!-- <div class="page-loading active text-indigo">
     <div class="page-loading-inner">
       <div class="page-spinner"></div><span></span>
     </div>
-  </div>
+  </div>  -->
+
+  
   <!--begin::Main-->
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      @yield('content')
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            @yield('content')
+        </div>
     </div>
-  </div>
+
   {!!$set->livechat!!}
   {!!$set->analytic_snippet!!}
   <script src="{{asset('dashboard/plugins/global/plugins.bundle.js')}}"></script>

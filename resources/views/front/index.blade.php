@@ -3,7 +3,48 @@
 
 @stop
 @section('content')
-<section class="overflow-hidden pt-5 pb-1 bg-dark dd-bg">
+
+<section class="main-hero" aria-label="Hero Area">
+
+    <!-- Desktop Background -->
+    <div class="hero-image-bg d-none d-md-block"
+         style="background-image: url('{{ asset('asset/images/hero.jpg') }}');">
+    </div>
+    
+
+    <!-- Mobile Background -->
+    <div class="hero-image-bg d-block d-md-none"
+         style="background-image: url('{{ asset('asset/images/hero.jpg') }}');">
+    </div>
+
+    <!-- Content -->
+    <div class="main-hero__container">
+        <div class="main-hero__content">
+            <div class="main-hero__header">
+                <p class="main-hero__title">
+                    Bank from home, or on-the-go, that's Mac City Credit Capital
+                </p>
+                <p class="main-hero__subtitle">
+                    We do banking  
+                    differently. We believe that people come first, and that everyone deserves a great experience every step of the way – whether it’s face to face, over the phone, online or on our app.
+                </p>
+            </div>
+
+            <ul class="main-hero__btns">
+                <li>
+                    <a href="https://Maccitycredcap.com/online" class="button--primary">INTERNET BANKING</a>
+                </li>
+                <li>
+                    <a href="https://Maccitycredcap.com/open-account.php" class="button--navy-outline">OPEN ACCOUNT</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+
+{{--<section class="overflow-hidden pt-5 pb-1 bg-dark dd-bg">
     <div class="container pt-3 pt-sm-4 pt-xl-5">
         <div class="row">
             <div class="col-md-6 d-flex flex-column mt-md-4 pt-5 pb-3 pb-sm-4 py-md-5">
@@ -23,7 +64,9 @@
             </div>
         </div>
     </div>
-</section>
+</section>--}}
+
+
 <section class="container py-5 mt-md-3 my-lg-5">
     <div class="row">
         <div class="col-md-12">

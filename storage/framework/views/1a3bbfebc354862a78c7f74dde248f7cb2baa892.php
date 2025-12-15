@@ -19,55 +19,76 @@
 }
 
     </style>
-    @error('added')
+    <?php $__errorArgs = ['added'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
     <div class="alert alert-danger">
         <div class="d-flex flex-column">
-            <span>{{$message}}</span>
+            <span><?php echo e($message); ?></span>
         </div>
     </div>
-    @enderror
+    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
     <!--<div class="text-center">
         <a href="" class="navbar-brand pe-3">
-            <img class="mb-6 text-center" src="}" width="200" alt="{{$set->site_name}}" loading="lazy">
+            <img class="mb-6 text-center" src="}" width="200" alt="<?php echo e($set->site_name); ?>" loading="lazy">
         </a>
     </div>-->
    
     <div class="section mt-2 text-center">
-		    <a href="{{route('home')}}" >
-			<img src="{{asset('asset/images/logo.png')}}" width="150px">
+		    <a href="<?php echo e(route('home')); ?>" >
+			<img src="<?php echo e(asset('asset/images/logo.png')); ?>" width="150px">
 			</a>
 		</div>
     <div class="card rounded-5 login-card mx-auto">
         <div class="card-body p-4">
             <form class="form" wire:submit.prevent="submitLogin" method="post">
-                @csrf
+                <?php echo csrf_field(); ?>
                 
                 <div class="fv-row mb-10">
-                    <label class="form-label fs-6 fw-bolder ">{{__('Account ID')}}</label>
-                    <input class="form-control form-control-lg underline-input" type="email" wire:model.defer="email" autocomplete="email" value="{{old('email')}}"  />
-                    @error('email')
-                    <span class="form-text">{{$message}}</span>
-                    @enderror
+                    <label class="form-label fs-6 fw-bolder "><?php echo e(__('Account ID')); ?></label>
+                    <input class="form-control form-control-lg underline-input" type="email" wire:model.defer="email" autocomplete="email" value="<?php echo e(old('email')); ?>"  />
+                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <span class="form-text"><?php echo e($message); ?></span>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="fv-row mb-10">
                     <div class="d-flex flex-stack mb-2">
-                        <label class="form-label fw-bolder text-d fs-6 mb-0">{{__('Password')}}</label>
+                        <label class="form-label fw-bolder text-d fs-6 mb-0"><?php echo e(__('Password')); ?></label>
                     </div>
                     <div class="position-relative" wire:ignore.self>
                         <input class="form-control form-control-lg underline-input" type="password" wire:model.defer="password" autocomplete="off" required data-toggle="password" id="password" />
                        
-                                                <a href="{{route('user.password.request')}}" style="text-decoration: none; color: #27173E" >{{__('Forgot Password?')}}</a>
+                                                <a href="<?php echo e(route('user.password.request')); ?>" style="text-decoration: none; color: #27173E" ><?php echo e(__('Forgot Password?')); ?></a>
 
                     </div>
-                    @error('password')
-                    <span class="form-text">{{$message}}</span>
-                    @enderror
+                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <span class="form-text"><?php echo e($message); ?></span>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 
                 <div class="text-center">
                     <button type="submit" class="btn btn-lg btn-info btn-block fw-bolder me-3 my-2">
-                        <span wire:loading.remove wire:target="submitLogin">{{__('Sign In')}}</span>
-                        <span wire:loading wire:target="submitLogin">{{__('Signing In...')}}</span>
+                        <span wire:loading.remove wire:target="submitLogin"><?php echo e(__('Sign In')); ?></span>
+                        <span wire:loading wire:target="submitLogin"><?php echo e(__('Signing In...')); ?></span>
                     </button>
                    
                 </div>
@@ -75,7 +96,7 @@
         </div>
     </div>
 </div>
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
     function initPasswordToggle() {
         $('[data-toggle="password"]').each(function() {
@@ -105,5 +126,6 @@
         initPasswordToggle();
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
+<?php /**PATH C:\xampp\htdocs\adv-banking\resources\views/livewire/auth/login.blade.php ENDPATH**/ ?>

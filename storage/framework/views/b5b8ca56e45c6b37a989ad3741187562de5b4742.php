@@ -1,4 +1,40 @@
 <?php $__env->startSection('content'); ?>
+ <!-- Styles scoped to this login component: card size, background, and underline inputs -->
+    <style>
+        .login-card { width: 120%; min-width: 0;  border: 10px solid grey; }
+        .login-card .card-body { padding: 1.5rem; }
+
+        @media (max-width: 576px) { .login-card { width: 92%; } }
+    .card {
+    background: rgba(92, 78, 78, 0.15) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    /*    text-shadow: 1px 1px #ffffff;*/
+        color: #ffffff !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+}
+.underline-input {
+    width: 100% !important;
+    box-sizing: border-box;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    border: 0 !important;
+    border-bottom: 1px solid #d1d5db !important;
+
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    background-color: transparent !important;
+    color: #fff;
+}
+
+        .underline-input:focus { box-shadow: none; border-bottom-color: #0d6efd; outline: none; color: #ffffff }
+
+    </style>
 <div class="py-10">
     <div class="p-10 p-lg-15 mx-auto">
         <div class="text-center">
@@ -7,17 +43,17 @@
             </a>
         </div>
         <div class="card rounded-5">
-            <div class="card-body m-5">
+            <div class="card-body m-5" style="color: #ffffff">
                 <form class="form w-100" action="<?php echo e(route('confirm.otp')); ?>" method="post">
                     <?php echo csrf_field(); ?>
                     <div class="text-start mb-10">
-                        <h1 class="text-dark mb-3 fs-2"><?php echo e(__('Enter your One Time Password')); ?></h1>
-                        <div class="text-dark fw-bold fs-5"><?php echo e(__('Input the OTP we sent to')); ?> <?php echo e($user->email); ?></div>
-                        <p class="text-muted"><?php echo e(__('You can')); ?> <a href="<?php echo e(route('resend.otp')); ?>" class="resend-sms text-info"><u><?php echo e(__('resend')); ?></u></a> <?php echo e(__('Email after')); ?> <span id="timer" class="font-weight-bold text-indigo text-lg"></span></p>
+                        <h1 class="mb-3 fs-2"><?php echo e(__('Enter your One Time Password')); ?></h1>
+                        <div class="fw-bold fs-5"><?php echo e(__('Input the OTP we sent to')); ?> <?php echo e(substr($user->email, 0, 3)); ?>***@***<?php echo e(substr(explode('@', $user->email)[1], -4)); ?></div>
+                        <p><?php echo e(__('You can')); ?> <a href="<?php echo e(route('resend.otp')); ?>" class="resend-sms" style="color: #588a00" ><u><?php echo e(__('resend')); ?></u></a> <?php echo e(__('Email after')); ?> <span id="timer" class="font-weight-bold text-indigo text-lg"></span></p>
                     </div>
                     <div class="fv-row mb-10">
-                        <label class="form-label fs-6 fw-bolder text-dark"><?php echo e(__('Code')); ?></label>
-                        <input class="form-control form-control-lg form-control-solid border-light" name="code" type="tel" minlength="4" maxlength="6" pattern="[0-9]+" autocomplete="one-time-code" value="<?php echo e(old('code')); ?>" required placeholder="XXXXXX" autofocus onkeyup="this.value=removeSpacesPin(this.value);" onmouseout="this.value=removeSpacesPin(this.value);" />
+                        <label class="form-label fs-6 fw-bolder "><?php echo e(__('Code')); ?></label>
+                        <input class="form-control form-control-lg form-control-solid underline-input" name="code" type="tel" minlength="4" maxlength="6" pattern="[0-9]+" autocomplete="one-time-code" value="<?php echo e(old('code')); ?>" autofocus onkeyup="this.value=removeSpacesPin(this.value);" onmouseout="this.value=removeSpacesPin(this.value);" />
                         <?php $__errorArgs = ['code'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -44,7 +80,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     <?php endif; ?>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-lg btn-info btn-block fw-bolder me-3 my-2">
+                        <button type="submit" class="btn btn-lg btn-block fw-bolder me-3 my-2" style="background-color: #588a00; color: #ffffff;">
                             <span class="indicator-label"><?php echo e(__('Verify OTP')); ?></span>
                         </button>
                     </div>

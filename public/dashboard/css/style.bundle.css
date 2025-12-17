@@ -47,7 +47,7 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #181c32;
+    color: #ffffff;
     background-color: #fff;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent
@@ -220,12 +220,13 @@ sup {
 }
 
 a {
-    color: #820cd7;
+    color: #43591c
+ ;
     text-decoration: none
 }
 
 a:hover {
-    color: #0072b3;
+    color: #43591c;
     text-decoration: underline
 }
 
@@ -5231,7 +5232,7 @@ fieldset:disabled .btn {
     color: #fff
 }
 
-.card {
+/*.card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -5241,7 +5242,7 @@ fieldset:disabled .btn {
     background-clip: border-box;
     border: 1px solid #eff2f5;
     border-radius: .475rem
-}
+}*/
 
 .card>hr {
     margin-right: 0;

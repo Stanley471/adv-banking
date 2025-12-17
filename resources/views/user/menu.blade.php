@@ -16,7 +16,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
   <link rel="stylesheet" href="{{ asset('vendor/megaphone/css/megaphone.css') }}">
   <link rel="stylesheet" href="{{asset('asset/filepond/css/filepond.css')}}" />
+  <link href="{{asset('dashboard/css/custom.css')}}" rel="stylesheet" type="text/css" />  <!-- ADD THIS -->
+
   @livewireStyles
+  
   @yield('css')
   @include('partials.font')
 </head>
@@ -179,7 +182,8 @@
   </div>
   <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
     <!--begin::Header-->
-    <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+    <!-- NEW -->
+<div id="kt_header" class="header d-none d-lg-block" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
       <!--begin::Container-->
       <div class="container-fluid d-flex align-items-stretch justify-content-between">
         <!--begin::Logo bar-->
@@ -224,6 +228,21 @@
       </div>
       <!--end::Container-->
     </div>
+    <!-- Mobile Header (Olive Green) -->
+<div class="d-lg-none" style="background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%); padding: 15px 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+    <select style="background: white; border: none; border-radius: 8px; padding: 8px 12px; font-weight: 600;">
+        <option>EN</option>
+    </select>
+    
+    <div style="color: white; font-size: 18px; font-weight: bold;">MAC CITY</div>
+    
+    <div style="position: relative;">
+        <img src="{{$user->avatar ?? asset('asset/images/default-avatar.png')}}" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;">
+        <span style="position: absolute; top: -5px; right: -5px; background: #ff1493; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: bold;">0</span>
+    </div>
+</div>
+
+<div class="d-lg-none" style="height: 70px;"></div> <!-- Spacer so content doesn't hide under fixed header -->
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
       <livewire:megaphone.popout></livewire:megaphone.popout>
       @yield('content')

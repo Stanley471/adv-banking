@@ -16,8 +16,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
   <link rel="stylesheet" href="<?php echo e(asset('vendor/megaphone/css/megaphone.css')); ?>">
   <link rel="stylesheet" href="<?php echo e(asset('asset/filepond/css/filepond.css')); ?>" />
+  <link href="<?php echo e(asset('dashboard/css/custom.css')); ?>" rel="stylesheet" type="text/css" />  <!-- ADD THIS -->
+
   <?php echo \Livewire\Livewire::styles(); ?>
 
+  
   <?php echo $__env->yieldContent('css'); ?>
   <?php echo $__env->make('partials.font', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </head>
@@ -180,7 +183,8 @@
   </div>
   <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
     <!--begin::Header-->
-    <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+    <!-- NEW -->
+<div id="kt_header" class="header d-none d-lg-block" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
       <!--begin::Container-->
       <div class="container-fluid d-flex align-items-stretch justify-content-between">
         <!--begin::Logo bar-->
@@ -204,15 +208,15 @@
             <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone', [])->html();
-} elseif ($_instance->childHasBeenRendered('MUAr9fm')) {
-    $componentId = $_instance->getRenderedChildComponentId('MUAr9fm');
-    $componentTag = $_instance->getRenderedChildComponentTagName('MUAr9fm');
+} elseif ($_instance->childHasBeenRendered('Vrc6gKd')) {
+    $componentId = $_instance->getRenderedChildComponentId('Vrc6gKd');
+    $componentTag = $_instance->getRenderedChildComponentTagName('Vrc6gKd');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('MUAr9fm');
+    $_instance->preserveRenderedChild('Vrc6gKd');
 } else {
     $response = \Livewire\Livewire::mount('megaphone', []);
     $html = $response->html();
-    $_instance->logRenderedChild('MUAr9fm', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('Vrc6gKd', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone>
@@ -221,15 +225,15 @@ echo $html;
               <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('settings.logout', ['user' => $user])->html();
-} elseif ($_instance->childHasBeenRendered('bNytLvI')) {
-    $componentId = $_instance->getRenderedChildComponentId('bNytLvI');
-    $componentTag = $_instance->getRenderedChildComponentTagName('bNytLvI');
+} elseif ($_instance->childHasBeenRendered('RHqvgaR')) {
+    $componentId = $_instance->getRenderedChildComponentId('RHqvgaR');
+    $componentTag = $_instance->getRenderedChildComponentTagName('RHqvgaR');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('bNytLvI');
+    $_instance->preserveRenderedChild('RHqvgaR');
 } else {
     $response = \Livewire\Livewire::mount('settings.logout', ['user' => $user]);
     $html = $response->html();
-    $_instance->logRenderedChild('bNytLvI', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('RHqvgaR', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -253,19 +257,34 @@ echo $html;
       </div>
       <!--end::Container-->
     </div>
+    <!-- Mobile Header (Olive Green) -->
+<div class="d-lg-none" style="background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%); padding: 15px 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+    <select style="background: white; border: none; border-radius: 8px; padding: 8px 12px; font-weight: 600;">
+        <option>EN</option>
+    </select>
+    
+    <div style="color: white; font-size: 18px; font-weight: bold;">MAC CITY</div>
+    
+    <div style="position: relative;">
+        <img src="<?php echo e($user->avatar ?? asset('asset/images/default-avatar.png')); ?>" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;">
+        <span style="position: absolute; top: -5px; right: -5px; background: #ff1493; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: bold;">0</span>
+    </div>
+</div>
+
+<div class="d-lg-none" style="height: 70px;"></div> <!-- Spacer so content doesn't hide under fixed header -->
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
       <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone.popout', [])->html();
-} elseif ($_instance->childHasBeenRendered('r7icWH8')) {
-    $componentId = $_instance->getRenderedChildComponentId('r7icWH8');
-    $componentTag = $_instance->getRenderedChildComponentTagName('r7icWH8');
+} elseif ($_instance->childHasBeenRendered('fmtyTFa')) {
+    $componentId = $_instance->getRenderedChildComponentId('fmtyTFa');
+    $componentTag = $_instance->getRenderedChildComponentTagName('fmtyTFa');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('r7icWH8');
+    $_instance->preserveRenderedChild('fmtyTFa');
 } else {
     $response = \Livewire\Livewire::mount('megaphone.popout', []);
     $html = $response->html();
-    $_instance->logRenderedChild('r7icWH8', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('fmtyTFa', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone.popout>

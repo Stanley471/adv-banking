@@ -15,7 +15,7 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <link href="{{asset('dashboard/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('dashboard/css/style.qbundle.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('dashboard/css/style.jbundle.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
   @livewireStyles
   @yield('css')

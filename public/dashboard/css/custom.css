@@ -1,36 +1,117 @@
-/* Mobile Header Override - Olive Green Theme */
+
+:root {
+    --bs-primary: #6B8E23 !important;
+    --bs-info: #556B2F !important;
+    --bs-info-light: rgba(85, 107, 47, 0.23) !important;
+    --bs-active-primary: #556B2F !important;
+    --bs-light-primary: rgba(107, 142, 35, 0.1) !important;
+}
+
+/* Sidebar active menu items */
+.menu-link.active,
+.menu-link.active:hover {
+    background-color: rgba(107, 142, 35, 0.15) !important;
+}
+
+.menu-link.active .menu-icon i,
+.menu-link.active .menu-title {
+    color: #ffffff !important;
+}
+
+/* Menu hover states */
+.menu-link:hover {
+    background-color: rgba(107, 142, 35, 0.08) !important;
+}
+
+.menu-link:hover .menu-icon i,
+.menu-link:hover .menu-title {
+    color: #6B8E23 !important;
+}
+
+/* All info colored elements */
+.text-info {
+    color: #6B8E23 !important;
+}
+
+.btn-info {
+    background-color: #6B8E23 !important;
+    border-color: #6B8E23 !important;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: #556B2F !important;
+    border-color: #556B2F !important;
+}
+
+/* Header - Desktop & Mobile */
+#kt_header {
+    background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+#kt_header *,
+#kt_header a,
+#kt_header .btn {
+    color: white !important;
+}
+
+#kt_header img {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Mobile Header - Center Logo */
 @media (max-width: 991px) {
-    #kt_header.header {
-        background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%) !important;
-        padding: 15px 0 !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-    }
-    
     #kt_header .container-fluid {
-        background: transparent !important;
+        justify-content: center !important;
+        position: relative;
     }
     
-    /* Logo white */
-    #kt_header .d-lg-none img {
-        filter: brightness(0) invert(1) !important;
+    #kt_header .d-flex.align-items-center:first-child {
+        position: absolute;
+        left: 15px;
     }
     
-    /* All header content white */
-    #kt_header,
-    #kt_header *,
-    #kt_header a,
-    #kt_header .btn,
-    #kt_header i,
-    #kt_header svg {
-        color: white !important;
+    #kt_header .d-flex.align-items-stretch.flex-shrink-0 {
+        position: absolute;
+        right: 15px;
+    }
+}
+
+/* Desktop - Fix sidebar/header alignment */
+@media (min-width: 992px) {
+    #kt_header {
+        margin-left: 0 !important;
     }
     
-    /* Aside toggle button */
-    #kt_aside_toggle {
-        background: rgba(255,255,255,0.2) !important;
+    .aside {
+        box-shadow: 2px 0 8px rgba(0,0,0,0.05) !important;
     }
     
-    #kt_aside_toggle i {
-        color: white !important;
+    /* Optional: Make header span full width above sidebar */
+    .page {
+        flex-direction: column !important;
     }
+    
+    #kt_header {
+        order: -1;
+    }
+}
+
+/* Progress bar color */
+.progress-bar {
+    background-color: #6B8E23 !important;
+}
+
+/* Links */
+a:hover {
+    color: #6B8E23 !important;
+}
+
+/* Purple security icon fix */
+.bg-primary,
+[style*="background-color: rgb(130, 12, 215)"],
+[style*="background: rgb(130, 12, 215)"] {
+    background-color: #6B8E23 !important;
 }

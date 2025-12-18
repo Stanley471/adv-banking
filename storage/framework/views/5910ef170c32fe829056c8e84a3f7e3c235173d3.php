@@ -471,6 +471,235 @@ unset($__errorArgs, $__bag); ?>
                 <div class="row g-xl-8 mb-6">
                     <div class="card bg-transparent h-md-100">
                         <div class="card-body p-0">
+                            <div class="balance-section">
+    <style>
+    .balance-section {
+        background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%);
+        padding: 40px 24px 60px 24px;
+        margin: 0 -24px -40px -24px;
+        position: relative;
+    }
+    
+    .balance-section .account-card {
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    @media (max-width: 768px) {
+        .balance-section {
+            padding: 30px 16px 50px 16px;
+            margin: 0 -16px -30px -16px;
+        }
+    }
+    </style>
+    
+    <!-- THE ACCOUNT CARD CODE GOES HERE -->
+    <style>
+.balance-section {
+    background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%);
+    padding: 40px 24px 60px 24px;
+    margin: 0 -24px -40px -24px;
+    position: relative;
+}
+
+.account-card {
+    background: linear-gradient(135deg, #1a2332 0%, #0d1420 100%);
+    border-radius: 24px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    color: white;
+    max-width: 100%;
+}
+
+.account-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.account-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.account-type {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.account-balance {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 8px 0 24px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.account-number-label {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.account-number {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 28px;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+.account-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.stat-item {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.card-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 2;
+}
+
+.card-menu:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.balance-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-left: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    vertical-align: middle;
+}
+
+.balance-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .balance-section {
+        padding: 30px 16px 50px 16px;
+        margin: 0 -16px -30px -16px;
+    }
+    
+    .account-card {
+        padding: 20px;
+    }
+    
+    .account-balance {
+        font-size: 28px;
+    }
+    
+    .account-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+</style>
+
+<div class="balance-section">
+    <div class="account-card">
+        <?php if($set->money_transfer): ?>
+        <div class="card-menu" id="kt_transfer_money_button" title="Transfer Money">
+            <i class="fas fa-ellipsis-h"></i>
+        </div>
+        <?php endif; ?>
+        
+        <div class="account-card-content">
+            <div class="account-type">CHECKINGS</div>
+            <div class="account-balance">
+                <span id="main_balance">
+                    <?php if($user->business->reveal_balance == 1): ?>
+                        <?php echo e($currency->currency_symbol.currencyFormat(number_format($user->getBalance($val->id)->amount,2))); ?>
+
+                    <?php else: ?> 
+                        ************
+                    <?php endif; ?>
+                </span>
+                <span class="balance-toggle" wire:click="xBalance">
+                    <?php if($user->business->reveal_balance == 1): ?>
+                        <i class="fal fa-eye-slash"></i>
+                    <?php else: ?>
+                        <i class="fal fa-eye"></i>
+                    <?php endif; ?>
+                </span>
+            </div>
+            
+            <div class="account-number-label">ACCOUNT NUMBER</div>
+            <div class="account-number">
+                •••• <?php echo e(substr($user->merchant_id, -4)); ?>
+
+                <i class="fal fa-clone castro-copy" data-clipboard-text="<?php echo e($user->merchant_id); ?>" title="Copy" style="font-size: 14px; margin-left: 8px; cursor: pointer; opacity: 0.7;"></i>
+            </div>
+            
+            <div class="account-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Credits - <?php echo e(\Carbon\Carbon::now()->format('F Y')); ?></div>
+                    <div class="stat-value"><?php echo e($currency->currency_symbol); ?>0.00</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Debits - <?php echo e(\Carbon\Carbon::now()->format('F Y')); ?></div>
+                    <div class="stat-value"><?php echo e($currency->currency_symbol); ?>0.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+</div>
                             <div class="px-9 pt-6 card-rounded w-100 bgi-no-repeat castro-secret2 bgi-size-cover bgi-position-y-top <?php if($next == 1): ?> h-250px <?php else: ?> h-200px <?php endif; ?>">
                                 <div class="row mt-6">
                                     <div class="col-6">

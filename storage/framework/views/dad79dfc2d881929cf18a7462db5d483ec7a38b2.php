@@ -71,12 +71,12 @@
   <div class="d-flex flex-column flex-root">
     <div class="page d-flex flex-row flex-column-fluid">
       <div id="kt_aside" class="aside aside-default bg-white aside-hoverable" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_toggle">
-        <div class="aside-logo flex-column-auto pt-9 pb-10" id="kt_aside_logo">
+       <!-- <div class="aside-logo flex-column-auto pt-9 pb-10" id="kt_aside_logo">
           <a href="<?php echo e(route('user.dashboard')); ?>">
             <img alt="Logo" src="<?php echo e(asset('asset/images/logo.png')); ?>" class="logo-default" style="height:auto; max-width:60%;" />
             <img alt="Logo" src="<?php echo e(asset('asset/images/logo.png')); ?>" class="h-50px logo-minimize" style="height:auto; max-width:60%;" />
           </a>
-        </div>
+        </div> -->
         <div class="aside-menu flex-column-fluid">
           <div class="menu menu-column menu-fit menu-rounded menu-title-dark menu-icon-dark menu-state-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold fs-5 my-5 mt-lg-2 mb-lg-0" id="kt_aside_menu" data-kt-menu="true">
             <div class="menu-fit hover-scroll-y me-lg-n5 pe-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="20px" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
@@ -180,91 +180,78 @@
   <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
     <!--begin::Header-->
     <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
-      <!--begin::Container-->
-      <div class="container-fluid d-flex align-items-stretch justify-content-between">
-        <!--begin::Logo bar-->
-        <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-          <!--begin::Logo-->
-          <a href="<?php echo e(route('user.dashboard')); ?>" class="d-lg-none">
-            <img alt="Logo" src="<?php echo e(asset('asset/images/logo.png')); ?>" style="height:auto; max-width:50%;" />
-          </a>
-          <!--end::Logo-->
-        </div>
-        <!--end::Logo bar-->
-        <!--begin::Topbar-->
-        <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
-          <!--begin::Search-->
-          <div class="d-flex align-items-stretch">
-
-          </div>
-          <!--end::Search-->
-          <!--begin::Toolbar wrapper-->
-          <div class="d-flex align-items-stretch flex-shrink-0">
-            <?php
+  <!--begin::Container-->
+  <div class="container-fluid d-flex align-items-center justify-content-center position-relative">
+    
+    <!--begin::Left side - Hamburger (mobile only)-->
+    <div class="position-absolute start-0 d-lg-none">
+      <div class="btn btn-icon btn-icon-dark btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_toggle">
+        <span class="svg-icon svg-icon-2x">
+          <i class="fal fa-bars"></i>
+        </span>
+      </div>
+    </div>
+    <!--end::Left side-->
+    
+    <!--begin::Logo - Centered on all devices-->
+    <a href="<?php echo e(route('user.dashboard')); ?>" class="d-flex align-items-center">
+      <img alt="Logo" src="<?php echo e(asset('asset/images/logo.png')); ?>" style="height: 40px; width: auto;" />
+    </a>
+    <!--end::Logo-->
+    
+    <!--begin::Right side - User menu and notifications-->
+    <div class="position-absolute end-0 d-flex align-items-center">
+      <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone', [])->html();
-} elseif ($_instance->childHasBeenRendered('9PirsLF')) {
-    $componentId = $_instance->getRenderedChildComponentId('9PirsLF');
-    $componentTag = $_instance->getRenderedChildComponentTagName('9PirsLF');
+} elseif ($_instance->childHasBeenRendered('NJhYCYx')) {
+    $componentId = $_instance->getRenderedChildComponentId('NJhYCYx');
+    $componentTag = $_instance->getRenderedChildComponentTagName('NJhYCYx');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('9PirsLF');
+    $_instance->preserveRenderedChild('NJhYCYx');
 } else {
     $response = \Livewire\Livewire::mount('megaphone', []);
     $html = $response->html();
-    $_instance->logRenderedChild('9PirsLF', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('NJhYCYx', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone>
-            <!--begin::User-->
-            <div class="d-flex align-items-center ms-2 ms-lg-3" id="kt_header_user_menu_toggle">
-              <?php
+      <div class="d-flex align-items-center ms-2 ms-lg-3" id="kt_header_user_menu_toggle">
+        <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('settings.logout', ['user' => $user])->html();
-} elseif ($_instance->childHasBeenRendered('crGoGBq')) {
-    $componentId = $_instance->getRenderedChildComponentId('crGoGBq');
-    $componentTag = $_instance->getRenderedChildComponentTagName('crGoGBq');
+} elseif ($_instance->childHasBeenRendered('TsSTrPH')) {
+    $componentId = $_instance->getRenderedChildComponentId('TsSTrPH');
+    $componentTag = $_instance->getRenderedChildComponentTagName('TsSTrPH');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('crGoGBq');
+    $_instance->preserveRenderedChild('TsSTrPH');
 } else {
     $response = \Livewire\Livewire::mount('settings.logout', ['user' => $user]);
     $html = $response->html();
-    $_instance->logRenderedChild('crGoGBq', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('TsSTrPH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
-            </div>
-            <!--end::User -->
-            <!--begin::Aside Toggle-->
-            <div class="d-flex align-items-center d-lg-none ms-1 ms-lg-3">
-              <div class="btn btn-icon btn-icon-dark btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_toggle">
-                <!--begin::Svg Icon | path: icons/duotone/Text/Menu.svg-->
-                <span class="svg-icon svg-icon-2x">
-                  <i class="fal fa-bars"></i>
-                </span>
-                <!--end::Svg Icon-->
-              </div>
-            </div>
-            <!--end::Aside Toggle-->
-          </div>
-          <!--end::Toolbar wrapper-->
-        </div>
-        <!--end::Topbar-->
       </div>
-      <!--end::Container-->
     </div>
+    <!--end::Right side-->
+    
+  </div>
+  <!--end::Container-->
+</div>
     <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
       <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone.popout', [])->html();
-} elseif ($_instance->childHasBeenRendered('3FsKBjA')) {
-    $componentId = $_instance->getRenderedChildComponentId('3FsKBjA');
-    $componentTag = $_instance->getRenderedChildComponentTagName('3FsKBjA');
+} elseif ($_instance->childHasBeenRendered('qbe4sNy')) {
+    $componentId = $_instance->getRenderedChildComponentId('qbe4sNy');
+    $componentTag = $_instance->getRenderedChildComponentTagName('qbe4sNy');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('3FsKBjA');
+    $_instance->preserveRenderedChild('qbe4sNy');
 } else {
     $response = \Livewire\Livewire::mount('megaphone.popout', []);
     $html = $response->html();
-    $_instance->logRenderedChild('3FsKBjA', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('qbe4sNy', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone.popout>

@@ -27,11 +27,6 @@
 
 
   <body style="background: url('<?php echo e(asset('asset/images/login_bg.jpg')); ?>') no-repeat center center fixed; background-size: cover;">
- <!-- <div class="page-loading active text-indigo">
-    <div class="page-loading-inner">
-      <div class="page-spinner"></div><span></span>
-    </div>
-  </div>  -->
 
   
   <!--begin::Main-->

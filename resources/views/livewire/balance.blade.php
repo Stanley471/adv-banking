@@ -692,22 +692,22 @@
     <!-- First Row: Top 3 Icons -->
     <div class="icon-grid">
         <a href="{{route('user.profile', ['type' => 'profile'])}}" class="icon-item">
-            <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-    <i class="fas fa-star" style="color: white !important; font-size: 36px;"></i>
+            <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+    <i class="fas fa-star" style="color: white !important; font-size: 30px;"></i>
 </div>
             <div class="icon-label">View<br>Profile</div>
         </a>
         
         <a href="{{route('user.ticket')}}" class="icon-item">
-            <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-                <i class="fas fa-envelope" style="color: white !important; font-size: 36px;"></i>
+            <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+                <i class="fas fa-envelope" style="color: white !important; font-size: 30px;"></i>
             </div>
-            <div class="icon-label">contact<br>Support</div>
+            <div class="icon-label">Contact<br>Support</div>
         </a>
         
         <a href="#" class="icon-item" data-bs-toggle="modal" data-bs-target="#crypto_deposit">
-            <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-                <i class="fas fa-credit-card" style="color: white !important; font-size: 36px;"></i>
+            <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+                <i class="fas fa-credit-card" style="color: white !important; font-size: 30px;"></i>
             </div>
             <div class="icon-label">Cryptocurrency<br>Deposit</div>
         </a>
@@ -718,22 +718,22 @@
         <div class="nested-card-inner">
             <div class="icon-grid">
                 <a href="#" class="icon-item" id="kt_send_money_button">
-                    <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-                        <i class="fas fa-share" style="color: white !important; font-size: 36px;"></i>
+                    <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+                        <i class="fas fa-share" style="color: white !important; font-size: 30px;"></i>
                     </div>
                     <div class="icon-label">Wire<br>Transfer</div>
                 </a>
                 
                 <a href="#" class="icon-item" id="kt_transfer_money_button">
-                    <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-                        <i class="fas fa-exchange-alt" style="color: white !important; font-size: 36px;"></i>
+                    <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+                        <i class="fas fa-exchange-alt" style="color: white !important; font-size: 30px;"></i>
                     </div>
                     <div class="icon-label">Local<br>Transfer</div>
                 </a>
                 
                 <a href="#" class="icon-item" data-bs-toggle="modal" data-bs-target="#bank_deposit">
-                    <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-                        <i class="fas fa-credit-card" style="color: white !important; font-size: 36px;"></i>
+                    <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+                        <i class="fas fa-credit-card" style="color: white !important; font-size: 30px;"></i>
                     </div>
                     <div class="icon-label">Check<br>Deposit</div>
                 </a>
@@ -741,22 +741,22 @@
             <!-- Third Row: Savings Statement, Checking Statement, Credit Card -->
 <div class="icon-grid">
     <a href="#" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-list-alt" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-list-alt" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Savings<br>Statement</div>
     </a>
     
     <a href="#" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-bars" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-bars" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Checking<br>Statement</div>
     </a>
     
     <a href="#" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-credit-card" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-credit-card" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Credit<br>Card</div>
     </a>
@@ -766,8 +766,8 @@
 <div class="icon-grid">
     @if($set->loan)
     <a href="{{route('user.loan')}}" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-money-bill" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-money-bill" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Mac<br>Loans</div>
     </a>
@@ -775,16 +775,16 @@
     
     @if($set->mutual_fund || $set->project_investment)
     <a href="{{route('user.plan')}}" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-chart-line" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-chart-line" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Mac<br>Investment</div>
     </a>
     @endif
     
     <a href="#" class="icon-item">
-        <div class="icon-box" style="width: 85px; height: 85px; background: #556B2F;">
-            <i class="fas fa-lightbulb" style="color: white !important; font-size: 36px;"></i>
+        <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
+            <i class="fas fa-lightbulb" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Mac<br>Tips</div>
     </a>

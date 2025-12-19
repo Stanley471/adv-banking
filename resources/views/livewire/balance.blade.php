@@ -393,7 +393,10 @@
 }
 
 .account-card {
-    background: linear-gradient(135deg, #1a2332 0%, #0d1420 100%);
+    background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(13, 20, 32, 0.95) 100%), 
+                url('{{asset('asset/images/card-bg.png')}}');
+    background-size: cover;
+    background-position: center;
     border-radius: 20px;
     padding: 18px;
     position: relative;
@@ -404,18 +407,6 @@
     max-width: 100%;
 }
 
-.account-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03) 0%, transparent 50%);
-    pointer-events: none;
-}
 
 .account-card-content {
     position: relative;
@@ -455,15 +446,45 @@
     color: #ffffff;
     letter-spacing: 2px;
 }
-
 .account-stats {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 8px;
 }
 
 .stat-item {
-    flex: 1;
+    text-align: left;
+}
+
+.stat-label {
+    font-size: 9px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 4px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .account-stats {
+        gap: 20px;
+    }
+    
+    .stat-label {
+        font-size: 8px;
+    }
+    
+    .stat-value {
+        font-size: 16px;
+    }
 }
 
 .stat-label {
@@ -539,7 +560,7 @@
 }
 </style>
 <div class="balance-section">
-    <div class="account-card">
+    <div class="account-card" style="background: url('{{asset('asset/images/card-bg.png')}}'); background-size: cover; background-position: center;">
         @if($set->money_transfer)
         <div class="card-menu" id="kt_transfer_money_button" title="Transfer Money">
             <i class="fas fa-ellipsis-h"></i>
@@ -572,15 +593,15 @@
             </div>
             
             <div class="account-stats">
-                <div class="stat-item">
-                    <div class="stat-label">Credits - {{\Carbon\Carbon::now()->format('F Y')}}</div>
-                    <div class="stat-value">{{$currency->currency_symbol}}0.00</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Debits - {{\Carbon\Carbon::now()->format('F Y')}}</div>
-                    <div class="stat-value">{{$currency->currency_symbol}}0.00</div>
-                </div>
-            </div>
+    <div class="stat-item">
+        <div class="stat-label">Credits - {{\Carbon\Carbon::now()->format('F Y')}}</div>
+        <div class="stat-value">{{$currency->currency_symbol}}0.00</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-label">Debits - {{\Carbon\Carbon::now()->format('F Y')}}</div>
+        <div class="stat-value">{{$currency->currency_symbol}}0.00</div>
+    </div>
+</div>
         </div>
     </div>
     <!-- Icon Grid Container -->

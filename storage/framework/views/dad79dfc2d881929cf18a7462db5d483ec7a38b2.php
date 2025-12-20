@@ -204,15 +204,15 @@
       <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone', [])->html();
-} elseif ($_instance->childHasBeenRendered('NJhYCYx')) {
-    $componentId = $_instance->getRenderedChildComponentId('NJhYCYx');
-    $componentTag = $_instance->getRenderedChildComponentTagName('NJhYCYx');
+} elseif ($_instance->childHasBeenRendered('5aagFZj')) {
+    $componentId = $_instance->getRenderedChildComponentId('5aagFZj');
+    $componentTag = $_instance->getRenderedChildComponentTagName('5aagFZj');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('NJhYCYx');
+    $_instance->preserveRenderedChild('5aagFZj');
 } else {
     $response = \Livewire\Livewire::mount('megaphone', []);
     $html = $response->html();
-    $_instance->logRenderedChild('NJhYCYx', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('5aagFZj', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone>
@@ -220,15 +220,15 @@ echo $html;
         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('settings.logout', ['user' => $user])->html();
-} elseif ($_instance->childHasBeenRendered('TsSTrPH')) {
-    $componentId = $_instance->getRenderedChildComponentId('TsSTrPH');
-    $componentTag = $_instance->getRenderedChildComponentTagName('TsSTrPH');
+} elseif ($_instance->childHasBeenRendered('QW81v82')) {
+    $componentId = $_instance->getRenderedChildComponentId('QW81v82');
+    $componentTag = $_instance->getRenderedChildComponentTagName('QW81v82');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('TsSTrPH');
+    $_instance->preserveRenderedChild('QW81v82');
 } else {
     $response = \Livewire\Livewire::mount('settings.logout', ['user' => $user]);
     $html = $response->html();
-    $_instance->logRenderedChild('TsSTrPH', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('QW81v82', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -243,15 +243,15 @@ echo $html;
       <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('megaphone.popout', [])->html();
-} elseif ($_instance->childHasBeenRendered('qbe4sNy')) {
-    $componentId = $_instance->getRenderedChildComponentId('qbe4sNy');
-    $componentTag = $_instance->getRenderedChildComponentTagName('qbe4sNy');
+} elseif ($_instance->childHasBeenRendered('n0ziSX9')) {
+    $componentId = $_instance->getRenderedChildComponentId('n0ziSX9');
+    $componentTag = $_instance->getRenderedChildComponentTagName('n0ziSX9');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('qbe4sNy');
+    $_instance->preserveRenderedChild('n0ziSX9');
 } else {
     $response = \Livewire\Livewire::mount('megaphone.popout', []);
     $html = $response->html();
-    $_instance->logRenderedChild('qbe4sNy', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('n0ziSX9', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?></livewire:megaphone.popout>

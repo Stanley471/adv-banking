@@ -482,7 +482,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
                 <i class="fas fa-envelope" style="color: white !important; font-size: 30px;"></i>
             </div>
-            <div class="icon-label">contact<br>Support</div>
+            <div class="icon-label">Contact<br>Support</div>
         </a>
         
         <a href="#" class="icon-item" data-bs-toggle="modal" data-bs-target="#crypto_deposit">

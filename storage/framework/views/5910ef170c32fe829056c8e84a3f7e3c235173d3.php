@@ -341,7 +341,7 @@ unset($__errorArgs, $__bag); ?>
     <div class="account-card" style="background: url('<?php echo e(asset('asset/images/card-bg.png')); ?>'); background-size: cover; background-position: center;">
         <?php if($set->money_transfer): ?>
         <div class="card-menu" id="kt_transfer_money_button" title="Transfer Money">
-            <i class="fas fa-ellipsis-h"></i>
+            <i class="fal fa-paper-plane"></i> 
         </div>
         <?php endif; ?>
         
@@ -356,13 +356,10 @@ unset($__errorArgs, $__bag); ?>
                         ************
                     <?php endif; ?>
                 </span>
-                <span class="balance-toggle" wire:click="xBalance">
-                    <?php if($user->business->reveal_balance == 1): ?>
-                        <i class="fal fa-eye-slash"></i>
-                    <?php else: ?>
-                        <i class="fal fa-eye"></i>
-                    <?php endif; ?>
-                </span>
+               <span class="balance-toggle" onclick="toggleBalance()" style="cursor: pointer;">
+    <i class="fal fa-eye-slash" id="hide_icon" <?php if($user->business->reveal_balance == 0): ?> style="display:none;" <?php endif; ?>></i>
+    <i class="fal fa-eye" id="show_icon" <?php if($user->business->reveal_balance == 1): ?> style="display:none;" <?php endif; ?>></i>
+</span>
             </div>
             
             <div class="account-number-label">ACCOUNT NUMBER</div>
@@ -590,182 +587,11 @@ unset($__errorArgs, $__bag); ?>
 </div>
     
 
-                            <div style="display: none"class="px-9 pt-6 card-rounded w-100 bgi-no-repeat castro-secret2 bgi-size-cover bgi-position-y-top <?php if($next == 1): ?> h-250px <?php else: ?> h-200px <?php endif; ?>">
-                                <div class="row mt-6">
-                                    <div class="col-6">
-                                        <h3 class="text-white fw-bold fs-3"><?php echo e('@'.$user->merchant_id); ?> <i class="fal fa-clone castro-copy fs-5" data-clipboard-text="<?php echo e($user->merchant_id); ?>" title="Copy"></i></h3>
-                                    </div>
-                                    <div class="col-6 text-end">
-                                        <?php if($set->money_transfer): ?>
-                                        <button id="kt_transfer_money_button" class="btn btn-light-info"><i class="fal fa-arrow-up-from-bracket"></i> <?php echo e(__('Transfer Money')); ?></button>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                                <div class="fw-bold fs-5 text-start pt-5 text-white">
-                                    <span class="fi fi-<?php echo e(strtolower($currency->iso2)); ?> mr-2 fis fs-1 rounded-4 text-white"></span> <?php echo e(__('Available Balance')); ?>
-
-                                    <span class="fw-bolder fs-2hx d-block mt-n1 text-white">
-                                        <span id="main_balance">
-                                            <?php if($user->business->reveal_balance == 1): ?><?php echo e($currency->currency_symbol.currencyFormat(number_format($user->getBalance($val->id)->amount,2)).' '.$currency->currency); ?> <?php else: ?> ************ <?php endif; ?>
-                                        </span>
-                                        <span class="ml-3 fs-3 cursor-pointer" wire:click="xBalance">
-                                            <i class="fal fa-eye-slash" id="hide_balance" <?php if($user->business->reveal_balance == 0): ?> style="display:none;" <?php endif; ?>></i>
-                                            <i class="fal fa-eye" id="reveal_balance" <?php if($user->business->reveal_balance == 1): ?> style="display:none;" <?php endif; ?>></i>
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
-                            <?php if($next == 1): ?>
-                            <div class="shadow-xs card-rounded mx-md-6 mx-2 mb-9 px-6 py-9 position-relative z-index-1 bg-white" style="margin-top: -50px">
-                                <div class="row mb-6">
-                                    <div class="col-md-8">
-                                        <p class="fw-bolder text-info fs-6 mb-0"><?php echo e(__('Complete Account Setup')); ?></p>
-                                    </div>
-                                    <div class="col-md-4 text-end">
-                                        <div class="d-flex flex-column w-100 me-2">
-                                            <span class="text-dark me-2 fw-bolder mb-2 fs-3">
-                                                <?php echo e(round($completed[0]/$completed[1])); ?>%
-                                            </span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo e(round($completed[0]/$completed[1])); ?>%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php if($user->business->kyc_status==null || $user->business->kyc_status=="RESUBMIT" || $user->business->kyc_status=="PENDING"): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-id-badge text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.compliance', ['type' => 'personal'])); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Verify Identity')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('Kindly update your account information to have access to savings, investment, loan & more.')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->business->kin_first_name == null): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-user text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.profile', ['type' => 'profile'])); ?>#kin">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Add Next of Kin')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('You are yet to add a next of kin to your account, this is to ensure your funds are secured')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->business->pin == null): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-key text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('setup.pin')); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-4 text-dark text-hover-primary fw-bolder"><?php echo e(__('Setup Transfer Pin')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('This is required to transfer money from your account.')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->banks->count() == 0): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-university text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.profile', ['type' => 'bank'])); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Add Bank Account')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('A Bank account is required for faster payout')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->avatar == null): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-user-plus text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.profile', ['type' => 'profile'])); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Choose your Avatar')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('You are yet to setup a profile photo')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->phone_verify == 0 && $set->phone_verify == 1): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-phone text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.add-phone')); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Verify Mobile Number ').$user->phone); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('You are yet to verify your mobile number')); ?>.</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if($user->fa_status == 0): ?>
-                                <div class="d-flex align-items-center mb-9">
-                                    <div class="symbol symbol-45px me-5 symbol-circle">
-                                        <span class="symbol-label bg-info">
-                                            <i class="fal fa-hashtag-lock text-white"></i>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center flex-wrap w-100">
-                                        <a href="<?php echo e(route('user.profile', ['type' => 'security'])); ?>">
-                                            <div class="mb-1 pe-3 flex-grow-1">
-                                                <div class="fs-5 text-dark text-hover-primary fw-bolder"><?php echo e(__('Secure your Account')); ?></div>
-                                                <div class="text-gray-800 fw-semibold"><?php echo e(__('Protect your account with Two-factor authentication.')); ?></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                            <?php else: ?><div class="mb-9"></div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-xl-8">
+                            
+                
+                <div class="row g-xl-8" >
                     <?php if($group->count() > 0): ?>
-                    <h4 class="mb-0"><?php echo e(__('Recent Transactions')); ?></h4>
+                    <h4 class="mb-0" style="margin: 30px 0"><?php echo e(__('Recent Transactions')); ?></h4>
                     <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-lg-12 col-md-12 mb-6">
                         <h5 class="mb-6 text-info"><?php echo e(($date == \Carbon\Carbon::today()->format('Y-m-d')) ? 'Today' : (($date == \Carbon\Carbon::yesterday()->format('Y-m-d')) ? 'Yesterday' : \Carbon\Carbon::create($date)->format('M j, Y'))); ?></h5>
@@ -1051,4 +877,29 @@ body {
 </div>
 </div>
 
-<?php /**PATH C:\xampp\htdocs\adv-banking\resources\views/livewire/balance.blade.php ENDPATH**/ ?>
+<script>
+function toggleBalance() {
+    const mainBalance = document.getElementById('main_balance');
+    const hideIcon = document.getElementById('hide_icon');
+    const showIcon = document.getElementById('show_icon');
+    const actualBalance = "<?php echo e($currency->currency_symbol.currencyFormat(number_format($user->getFirstBalance()->amount,2))); ?>";
+    
+    if (mainBalance.textContent.includes('*')) {
+        // Show balance
+        mainBalance.textContent = actualBalance;
+        hideIcon.style.display = 'inline';
+        showIcon.style.display = 'none';
+        
+        // Save to backend
+        window.livewire.find('<?php echo e($_instance->id); ?>').call('xBalance');
+    } else {
+        // Hide balance
+        mainBalance.textContent = '************';
+        hideIcon.style.display = 'none';
+        showIcon.style.display = 'inline';
+        
+        // Save to backend
+        window.livewire.find('<?php echo e($_instance->id); ?>').call('xBalance');
+    }
+}
+</script><?php /**PATH C:\xampp\htdocs\adv-banking\resources\views/livewire/balance.blade.php ENDPATH**/ ?>

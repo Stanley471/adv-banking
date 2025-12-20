@@ -58,6 +58,7 @@ class Balance extends Component
         } else {
             $business->update(['reveal_balance' => 1]);
         }
+        
     }
 
     public function next()

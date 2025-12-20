@@ -563,7 +563,7 @@
     <div class="account-card" style="background: url('{{asset('asset/images/card-bg.png')}}'); background-size: cover; background-position: center;">
         @if($set->money_transfer)
         <div class="card-menu" id="kt_transfer_money_button" title="Transfer Money">
-            <i class="fas fa-ellipsis-h"></i>
+            <i class="fal fa-paper-plane"></i> 
         </div>
         @endif
         
@@ -577,13 +577,10 @@
                         ************
                     @endif
                 </span>
-                <span class="balance-toggle" wire:click="xBalance">
-                    @if($user->business->reveal_balance == 1)
-                        <i class="fal fa-eye-slash"></i>
-                    @else
-                        <i class="fal fa-eye"></i>
-                    @endif
-                </span>
+               <span class="balance-toggle" onclick="toggleBalance()" style="cursor: pointer;">
+    <i class="fal fa-eye-slash" id="hide_icon" @if($user->business->reveal_balance == 0) style="display:none;" @endif></i>
+    <i class="fal fa-eye" id="show_icon" @if($user->business->reveal_balance == 1) style="display:none;" @endif></i>
+</span>
             </div>
             
             <div class="account-number-label">ACCOUNT NUMBER</div>
@@ -810,7 +807,7 @@
 </div>
     
 
-                            <div style="display: none"class="px-9 pt-6 card-rounded w-100 bgi-no-repeat castro-secret2 bgi-size-cover bgi-position-y-top @if($next == 1) h-250px @else h-200px @endif">
+                            {{--<div style="display: none"class="px-9 pt-6 card-rounded w-100 bgi-no-repeat castro-secret2 bgi-size-cover bgi-position-y-top @if($next == 1) h-250px @else h-200px @endif">
                                 <div class="row mt-6">
                                     <div class="col-6">
                                         <h3 class="text-white fw-bold fs-3">{{'@'.$user->merchant_id}} <i class="fal fa-clone castro-copy fs-5" data-clipboard-text="{{$user->merchant_id}}" title="Copy"></i></h3>
@@ -833,8 +830,8 @@
                                         </span>
                                     </span>
                                 </div>
-                            </div>
-                            @if($next == 1)
+                            </div> --}}
+                {{--            @if($next == 1)
                             <div class="shadow-xs card-rounded mx-md-6 mx-2 mb-9 px-6 py-9 position-relative z-index-1 bg-white" style="margin-top: -50px">
                                 <div class="row mb-6">
                                     <div class="col-md-8">
@@ -981,10 +978,10 @@
                             @endif
                         </div>
                     </div>
-                </div>
-                <div class="row g-xl-8">
+                </div>  --}}
+                <div class="row g-xl-8" >
                     @if($group->count() > 0)
-                    <h4 class="mb-0">{{__('Recent Transactions')}}</h4>
+                    <h4 class="mb-0" style="margin: 30px 0">{{__('Recent Transactions')}}</h4>
                     @foreach ($group as $date => $items)
                     <div class="col-lg-12 col-md-12 mb-6">
                         <h5 class="mb-6 text-info">{{($date == \Carbon\Carbon::today()->format('Y-m-d')) ? 'Today' : (($date == \Carbon\Carbon::yesterday()->format('Y-m-d')) ? 'Yesterday' : \Carbon\Carbon::create($date)->format('M j, Y'))}}</h5>
@@ -1270,3 +1267,29 @@ body {
 </div>
 </div>
 
+<script>
+function toggleBalance() {
+    const mainBalance = document.getElementById('main_balance');
+    const hideIcon = document.getElementById('hide_icon');
+    const showIcon = document.getElementById('show_icon');
+    const actualBalance = "{{$currency->currency_symbol.currencyFormat(number_format($user->getFirstBalance()->amount,2))}}";
+    
+    if (mainBalance.textContent.includes('*')) {
+        // Show balance
+        mainBalance.textContent = actualBalance;
+        hideIcon.style.display = 'inline';
+        showIcon.style.display = 'none';
+        
+        // Save to backend
+        @this.call('xBalance');
+    } else {
+        // Hide balance
+        mainBalance.textContent = '************';
+        hideIcon.style.display = 'none';
+        showIcon.style.display = 'inline';
+        
+        // Save to backend
+        @this.call('xBalance');
+    }
+}
+</script>

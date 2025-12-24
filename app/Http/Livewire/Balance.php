@@ -153,9 +153,9 @@ class Balance extends Component
         dispatch(new CustomEmail('transfer_debit', $debit->id));
         dispatch(new CustomEmail('transfer_credit', $credit->id));
 
-        $this->reset(['beneficiary', 'ben_amount', 'pin']);
-        $this->emit('closeDrawer');
-        $this->emit('success', __('Transfer successful'));
+       $this->reset(['beneficiary', 'ben_amount', 'pin']);
+$this->emit('closeDrawer');
+return redirect()->route('transaction.receipt', $debit->id);
     }
 
     public function payout()

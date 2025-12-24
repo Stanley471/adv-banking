@@ -169,6 +169,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'web'], function () {
             Route::view('transactions', 'user.transactions.index', ['title' => __('Transactions')])->name('user.transactions');
             Route::view('dashboard', 'user.dashboard.index', ['title' => __('Dashboard'), 'type' => 'balance'])->name('user.dashboard');
             Route::post('check-tag', [UserController::class, 'checkTag'])->name('tag.check');
+            Route::get('transaction/receipt/{id}', [App\Http\Controllers\User\TransactionController::class, 'receipt'])->name('transaction.receipt');
+
 
             Route::group(['prefix' => 'portfolio'], function () {
                 Route::view('dashboard', 'user.dashboard.index', ['title' => __('Portfolio'), 'type' => 'portfolio'])->name('user.porfolio');
@@ -334,3 +336,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
         })->name('topic.articles');
     });
 });
+

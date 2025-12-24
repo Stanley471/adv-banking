@@ -1,5 +1,5 @@
 <?php $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-<tr class="cursor-pointer" id="kt_trx_<?php echo e($val->id); ?>_button">
+<tr class="cursor-pointer" onclick="window.location='<?php echo e(route('transaction.receipt', $val->id)); ?>'" style="transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='transparent'">
     <td>
         <div class="symbol symbol-40px symbol-circle me-5">
             <div class="symbol-label fs-3 fw-bolder text-info bg-light-info">

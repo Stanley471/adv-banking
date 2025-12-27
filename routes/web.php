@@ -300,6 +300,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
             }
             abort(403);
         })->name('admin.payout');
+        Route::get('transactions/pending', [App\Http\Controllers\Admin\TransactionController::class, 'pending'])->name('admin.transactions.pending');
+    Route::post('transactions/{id}/approve', [App\Http\Controllers\Admin\TransactionController::class, 'approve'])->name('admin.transactions.approve');
+    Route::post('transactions/{id}/reject', [App\Http\Controllers\Admin\TransactionController::class, 'reject'])->name('admin.transactions.reject');
     });
 
     Route::group(['middleware' => 'Admin:language'], function () {

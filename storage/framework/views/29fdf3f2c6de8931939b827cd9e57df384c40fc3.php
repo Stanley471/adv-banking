@@ -57,6 +57,14 @@
                                     <span class="menu-title"><?php echo e(__('Clients')); ?></span>
                                 </a>
                             </div>
+                            <div class="menu-item">
+                                <a href="<?php echo e(route('admin.transactions.pending')); ?>" class="nav-link">
+                                    <i class="fas fa-clock"></i> Pending Transfers
+                                         <?php if(\App\Models\Transactions::where('status', 'pending')->count() > 0): ?>
+                                            <span class="badge badge-warning ms-2"><?php echo e(\App\Models\Transactions::where('status', 'pending')->count()); ?></span>
+                                        <?php endif; ?>
+                                </a>
+                            </div>
                             <div class="menu-item"><!--begin:Menu link-->
                                 <a class="menu-link <?php if(route('admin.kyc')==url()->current()): ?> active <?php endif; ?>" href="<?php echo e(route('admin.kyc')); ?>">
                                     <span class="menu-icon"><!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->

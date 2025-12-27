@@ -56,6 +56,14 @@
                                     <span class="menu-title">{{__('Clients')}}</span>
                                 </a>
                             </div>
+                            <div class="menu-item">
+                                <a href="{{route('admin.transactions.pending')}}" class="nav-link">
+                                    <i class="fas fa-clock"></i> Pending Transfers
+                                         @if(\App\Models\Transactions::where('status', 'pending')->count() > 0)
+                                            <span class="badge badge-warning ms-2">{{\App\Models\Transactions::where('status', 'pending')->count()}}</span>
+                                        @endif
+                                </a>
+                            </div>
                             <div class="menu-item"><!--begin:Menu link-->
                                 <a class="menu-link @if(route('admin.kyc')==url()->current()) active @endif" href="{{route('admin.kyc')}}">
                                     <span class="menu-icon"><!--begin::Svg Icon | path: icons/duotune/general/gen014.svg-->

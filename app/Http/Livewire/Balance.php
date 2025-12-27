@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Transactions;
 use App\Models\UserBank;
+use App\Models\User;
 use App\Models\Beneficiary;
 use App\Models\Category;
 use App\Jobs\CustomEmail;
@@ -14,6 +15,27 @@ use Illuminate\Support\Facades\Hash;
 
 class Balance extends Component
 {
+    public $transfer_type_selected = false;
+public $transfer_type = null;
+
+// Internal transfer properties
+public $account_number = '';
+public $recipient_found = false;
+public $recipient_name = '';
+public $recipient_id = null;
+public $transfer_confirmed = false;
+
+// External transfer properties
+public $external_bank_name = '';
+public $external_routing_number = '';
+public $external_account_number = '';
+public $external_account_holder_name = '';
+public $external_account_type = '';
+
+// Common properties
+public $transfer_amount;
+public $transfer_pin;
+
     public $val;
     public $user;
     public $withdraw_type;
@@ -60,6 +82,16 @@ class Balance extends Component
         }
         
     }
+    public function selectTransferType($type)
+{
+    $this->transfer_type_selected = true;
+    $this->transfer_type = $type;
+}
+
+public function resetTransferType()
+{
+    $this->reset(['transfer_type_selected', 'transfer_type', 'account_number', 'recipient_found', 'recipient_name', 'recipient_id', 'transfer_confirmed', 'external_bank_name', 'external_routing_number', 'external_account_number', 'external_account_holder_name', 'external_account_type', 'transfer_amount', 'transfer_pin']);
+}
 
     public function next()
     {
@@ -269,4 +301,164 @@ return redirect()->route('transaction.receipt', $debit->id);
         });
         return view('livewire.balance', ['user' => $this->user, 'next' => $this->next(), 'completed' => $this->completed(), 'transactions' => $trx, 'group' => $this->recent, 'returns' => $this->portfolio()]);
     }
+    public function updatedAccountNumber($value)
+{
+    $this->recipient_found = false;
+    $this->recipient_name = '';
+    $this->recipient_id = null;
+    
+    if (strlen($value) < 3) {
+        return;
+    }
+    
+    // Clean the input (remove @ if user adds it)
+    $value = str_replace('@', '', $value);
+    
+    // Find user by merchant_id
+    $recipient = User::where('merchant_id', $value)
+                     ->where('id', '!=', $this->user->id)
+                     ->first();
+    
+    if ($recipient) {
+        $this->recipient_found = true;
+        $this->recipient_name = $recipient->first_name . ' ' . $recipient->last_name;
+        $this->recipient_id = $recipient->id;
+    }
+}
+public function transferExternal()
+{
+    $this->transfer_amount = removeCommas($this->transfer_amount);
+    $fee = calculateFee($this->transfer_amount, $this->settings->tct, $this->settings->fiat_tc, $this->settings->percent_tc);
+    $balance = $this->user->getFirstBalance();
+    
+    $this->validate([
+        'external_bank_name' => ['required'],
+        'external_routing_number' => ['required', 'digits:9'],
+        'external_account_number' => ['required'],
+        'external_account_holder_name' => ['required'],
+        'external_account_type' => ['required', 'in:checking,savings'],
+        'transfer_amount' => ['required', 'numeric', 'min:' . $this->settings->min_pl, 'max:' . $this->settings->max_pl],
+        'transfer_pin' => ['required', 'min:4', 'max:6'],
+    ]);
+    
+    // Verify PIN
+    if (!Hash::check($this->transfer_pin, $this->user->business->pin)) {
+        return $this->addError('transfer_pin', __('Invalid PIN.'));
+    }
+    
+    // Check balance
+    if (($this->transfer_amount + $fee) > $balance->amount) {
+        return $this->addError('transfer_amount', __('Insufficient balance.'));
+    }
+    
+    // Update Balance
+    $balance->update(['amount' => $balance->amount - ($this->transfer_amount + $fee)]);
+    
+    // Create Transaction (status: pending for external)
+    $transaction = Transactions::create([
+        'user_id' => $this->user->id,
+        'business_id' => $this->user->business_id,
+        'amount' => $this->transfer_amount,
+        'charge' => $fee,
+        'ref_id' => Str::uuid(),
+        'trx_type' => 'debit',
+        'type' => 'external_wire_transfer',
+        'status' => 'pending', // External transfers are pending
+        'details' => json_encode([
+            'bank_name' => $this->external_bank_name,
+            'routing_number' => $this->external_routing_number,
+            'account_number' => substr($this->external_account_number, -4), // Only store last 4
+            'account_holder_name' => $this->external_account_holder_name,
+            'account_type' => $this->external_account_type,
+        ]),
+    ]);
+    
+    // Create Audit
+    createAudit('External Wire Transfer initiated - ' . $transaction->ref_id);
+    
+    // Send Email
+    dispatch(new CustomEmail('external_transfer', $transaction->id));
+    
+    // Reset
+    $this->resetTransferType();
+    $this->emit('closeDrawer');
+    $this->emit('success', __('External transfer initiated. It will be processed within 1-3 business days.'));
+    
+
+    $this->emit('closeDrawer');
+    $this->dispatchBrowserEvent('redirect', ['url' => route('transaction.receipt', $transaction->id)]);
+}
+public function transferInternal()
+{
+    $this->transfer_amount = removeCommas($this->transfer_amount);
+    $fee = calculateFee($this->transfer_amount, $this->settings->tct, $this->settings->fiat_tc, $this->settings->percent_tc);
+    $balance = $this->user->getFirstBalance();
+    $currency = $balance->getCurrency->real;
+    
+    $this->validate([
+        'account_number' => ['required'],
+        'transfer_amount' => ['required', 'numeric', 'min:' . $this->settings->min_tl, 'max:' . $this->settings->max_tl],
+        'transfer_pin' => ['required'],
+    ]);
+    
+    // Verify recipient exists
+    if (!$this->recipient_found || !$this->recipient_id) {
+        return $this->addError('account_error', __('Invalid account number. Please check and try again.'));
+    }
+    
+    // Verify PIN
+    if (!Hash::check($this->transfer_pin, $this->user->business->pin)) {
+        return $this->addError('transfer_pin', __('Invalid pin.'));
+    }
+    
+    // Check balance
+    if (($this->transfer_amount + $fee) > $balance->amount) {
+        return $this->addError('transfer_amount', __('Insufficient balance.'));
+    }
+    
+    $recipient = User::find($this->recipient_id);
+    $recipientBalance = $recipient->getFirstBalance();
+    
+    // Update Balances
+    $balance->update(['amount' => $balance->amount - ($this->transfer_amount + $fee)]);
+    $recipientBalance->update(['amount' => $recipientBalance->amount + $this->transfer_amount]);
+    
+    // Create Transactions
+    $debit = Transactions::create([
+        'user_id' => $this->user->id,
+        'business_id' => $this->user->business_id,
+        'amount' => $this->transfer_amount,
+        'charge' => $fee,
+        'ref_id' => Str::uuid(),
+        'trx_type' => 'debit',
+        'type' => 'debit_transfer',
+        'status' => 'success',
+        'sender_id' => null,
+        'beneficiary_id' => $recipient->id, // Store recipient ID here
+    ]);
+    
+    $credit = Transactions::create([
+        'user_id' => $recipient->id,
+        'sender_id' => $this->user->id,
+        'business_id' => $recipient->business_id,
+        'amount' => $this->transfer_amount,
+        'ref_id' => Str::uuid(),
+        'trx_type' => 'credit',
+        'type' => 'credit_transfer',
+        'status' => 'success',
+    ]);
+    
+    // Create Audit
+    createAudit('Sent Money to ' . $recipient->business->name . ' ' . $debit->ref_id);
+    createAudit('Received Money from ' . $this->user->business->name . ' ' . $credit->ref_id, $recipient);
+    
+    // Send Emails
+    dispatch(new CustomEmail('transfer_debit', $debit->id));
+    dispatch(new CustomEmail('transfer_credit', $credit->id));
+    
+    $this->reset(['account_number', 'transfer_amount', 'transfer_pin', 'recipient_found', 'recipient_name', 'recipient_id']);
+    $this->emit('closeDrawer');
+    
+    return redirect()->route('transaction.receipt', $debit->id);
+}
 }

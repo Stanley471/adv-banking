@@ -1,133 +1,282 @@
 
 
 <?php $__env->startSection('content'); ?>
-<div class="container py-10">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
-            <!-- Receipt Card -->
-            <div class="card shadow-lg" id="receipt-card">
-                <div class="card-body p-0">
-                    <!-- Header with Logo -->
-                    <div class="text-center py-8" style="background: linear-gradient(135deg, #556B2F 0%, #6B8E23 100%);">
-                        <img src="<?php echo e(asset('asset/images/logo.png')); ?>" alt="<?php echo e($set->site_name); ?>" style="height: 60px; filter: brightness(0) invert(1);">
-                        <h2 class="text-white mt-4 mb-0">Transaction Receipt</h2>
-                    </div>
+<style>
+.receipt-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    min-height: 100vh;
+    font-family: 'Courier New', Courier, monospace;
+}
 
-                    <!-- Success Badge -->
-                    <div class="text-center py-6">
-                        <div class="d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: #e8f5e9; border-radius: 50%;">
-                            <i class="fas fa-check-circle text-success" style="font-size: 48px;"></i>
-                        </div>
-                        <h3 class="text-success mt-4 mb-2">Transfer Successful!</h3>
-                        <p class="text-muted">Your money has been sent successfully</p>
-                    </div>
+.receipt-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+}
 
-                    <!-- Transaction Details -->
-                    <div class="px-8 pb-8">
-                        <!-- Amount -->
-                        <div class="text-center mb-8 p-6" style="background: #f8f9fa; border-radius: 12px;">
-                            <p class="text-muted mb-2">Amount Sent</p>
-                            <h1 class="mb-0" style="color: #556B2F; font-size: 42px; font-weight: 700;">
-                                <?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?><?php echo e(number_format($transaction->amount, 2)); ?>
+.receipt-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
 
-                            </h1>
-                        </div>
+.receipt-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
 
-                        <!-- Details Grid -->
-                        <div class="row g-4 mb-6">
-                            <div class="col-6">
-                                <p class="text-muted mb-1 small">Transaction ID</p>
-                                <p class="fw-bold mb-0"><?php echo e($transaction->ref_id); ?></p>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-muted mb-1 small">Date & Time</p>
-                                <p class="fw-bold mb-0"><?php echo e($transaction->created_at->format('M d, Y h:i A')); ?></p>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-muted mb-1 small">Transaction Type</p>
-                                <p class="fw-bold mb-0"><?php echo e(ucwords(str_replace('_', ' ', $transaction->type))); ?></p>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-muted mb-1 small">Status</p>
-                                <span class="badge bg-success"><?php echo e(ucfirst($transaction->status)); ?></span>
-                            </div>
-                        </div>
+.receipt-subtitle {
+    font-size: 12px;
+    color: #718096;
+    margin-top: 20px;
+    line-height: 1.6;
+}
 
-                        <hr class="my-6">
+.receipt-section {
+    background: #f7fafc;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
 
-                        <!-- Sender & Recipient -->
-                        <div class="row g-4 mb-6">
-                            <div class="col-md-6">
-                                <div class="p-4" style="background: #f8f9fa; border-radius: 12px;">
-                                    <p class="text-muted mb-2 small">From</p>
-                                    <p class="fw-bold mb-1"><?php echo e($transaction->user->business->name); ?></p>
-                                    <p class="text-muted small mb-0"><?php echo e('@'.$transaction->user->merchant_id); ?></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="p-4" style="background: #f8f9fa; border-radius: 12px;">
-                                    <p class="text-muted mb-2 small">To</p>
-                                    <p class="fw-bold mb-1"><?php echo e($transaction->beneficiary->recipient->business->name ?? 'N/A'); ?></p>
-                                    <p class="text-muted small mb-0"><?php echo e('@'.($transaction->beneficiary->recipient->merchant_id ?? 'N/A')); ?></p>
-                                </div>
-                            </div>
-                        </div>
+.receipt-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-                        <!-- Fee Breakdown -->
-                        <?php if($transaction->charge > 0): ?>
-                        <div class="p-4 mb-6" style="background: #fff3cd; border-radius: 12px; border-left: 4px solid #ffc107;">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Subtotal</span>
-                                <span class="fw-bold"><?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?><?php echo e(number_format($transaction->amount, 2)); ?></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Transaction Fee</span>
-                                <span class="fw-bold"><?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?><?php echo e(number_format($transaction->charge, 2)); ?></span>
-                            </div>
-                            <hr class="my-2">
-                            <div class="d-flex justify-content-between">
-                                <span class="fw-bold">Total Deducted</span>
-                                <span class="fw-bold" style="color: #556B2F;"><?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?><?php echo e(number_format($transaction->amount + $transaction->charge, 2)); ?></span>
-                            </div>
-                        </div>
-                        <?php endif; ?>
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
 
-                        <!-- Action Buttons -->
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <button onclick="window.print()" class="btn btn-outline-secondary btn-lg w-100">
-                                    <i class="fas fa-print me-2"></i> Print Receipt
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="<?php echo e(route('user.dashboard')); ?>" class="btn btn-lg w-100" style="background: #556B2F; color: white;">
-                                    <i class="fas fa-home me-2"></i> Back to Dashboard
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+.receipt-row:last-child {
+    border-bottom: none;
+}
 
-                    <!-- Footer -->
-                    <div class="text-center py-4" style="background: #f8f9fa; border-top: 1px solid #dee2e6;">
-                        <p class="text-muted small mb-0">Thank you for using <?php echo e($set->site_name); ?></p>
-                        <p class="text-muted small mb-0">For support, contact us at <?php echo e($set->site_email); ?></p>
-                    </div>
-                </div>
+.receipt-label {
+    font-size: 12px;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.receipt-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: right;
+}
+
+.receipt-amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.download-btn {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: white;
+    border: 2px solid #2d3748;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.progress-bar {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    right: 140px;
+    height: 35px;
+    background: #48bb78;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    z-index: 100;
+}
+
+@media print {
+    .download-btn, .progress-bar, .header, .aside, #kt_header, .bottom-nav, .btn {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .receipt-container {
+        padding: 10px;
+    }
+    
+    .download-btn {
+        top: 70px;
+        right: 10px;
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+    
+    .progress-bar {
+        left: 10px;
+        right: 120px;
+        top: 60px;
+    }
+}
+</style>
+
+<div class="progress-bar d-lg-none">
+    100%
+</div>
+<button class="download-btn d-lg-none" onclick="window.print()">
+    DOWNLOAD <i class="fas fa-download"></i>
+</button>
+
+<div class="receipt-container">
+    <!-- Header -->
+    <div class="receipt-header">
+        <img src="<?php echo e(asset('asset/images/logo.png')); ?>" alt="<?php echo e($set->site_name); ?>" class="receipt-logo">
+        <h1 class="receipt-title">Transaction Receipt</h1>
+        <p class="receipt-subtitle">
+            International transactions will take 2-3 days to be<br>processed and sent.
+        </p>
+    </div>
+
+    <!-- Sender Section -->
+    <div class="receipt-section">
+        <div class="receipt-section-title">SENDER</div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Name</span>
+            <span class="receipt-value"><?php echo e($transaction->user->first_name); ?> <?php echo e($transaction->user->last_name); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Account Number</span>
+            <span class="receipt-value"><?php echo e('******* '.substr($transaction->user->merchant_id, -4)); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Account Type</span>
+            <span class="receipt-value">CHECKINGS</span>
+        </div>
+    </div>
+
+    <!-- Receiver Section -->
+    <!-- Receiver Section -->
+<div class="receipt-section">
+    <div class="receipt-section-title">RECEIVER</div>
+    
+    <div class="receipt-row">
+        <span class="receipt-label">Name</span>
+        <?php if($transaction->beneficiary_id && $transaction->beneficiary): ?>
+            <span class="receipt-value"><?php echo e($transaction->beneficiary->recipient->first_name); ?> <?php echo e($transaction->beneficiary->recipient->last_name); ?></span>
+        <?php else: ?>
+            <?php
+                $recipient = \App\Models\User::find($transaction->beneficiary_id);
+            ?>
+            <span class="receipt-value"><?php echo e($recipient->first_name ?? 'N/A'); ?> <?php echo e($recipient->last_name ?? ''); ?></span>
+        <?php endif; ?>
+    </div>
+    
+    <div class="receipt-row">
+        <span class="receipt-label">Account Number</span>
+        <?php if($transaction->beneficiary_id && $transaction->beneficiary): ?>
+            <span class="receipt-value"><?php echo e('******* '.substr($transaction->beneficiary->recipient->merchant_id ?? '0000', -4)); ?></span>
+        <?php else: ?>
+            <span class="receipt-value"><?php echo e('******* '.substr($recipient->merchant_id ?? '0000', -4)); ?></span>
+        <?php endif; ?>
+    </div>
+    
+    <div class="receipt-row">
+        <span class="receipt-label">Amount</span>
+        <span class="receipt-value receipt-amount"><?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?> <?php echo e(number_format($transaction->amount, 2)); ?></span>
+    </div>
+</div>
+
+    <!-- Receiver Bank Details -->
+    <?php if($transaction->beneficiary && $transaction->beneficiary->recipient): ?>
+    <div class="receipt-section">
+        <div class="receipt-section-title">RECEIVER BANK DETAILS</div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Bank</span>
+            <span class="receipt-value"><?php echo e($transaction->beneficiary->bank_name ?? 'N/A'); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Address</span>
+            <span class="receipt-value"><?php echo e($transaction->beneficiary->bank_address ?? 'N/A'); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Routing</span>
+            <span class="receipt-value"><?php echo e($transaction->beneficiary->routing ?? 'N/A'); ?></span>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Transaction Details -->
+    <div class="receipt-section">
+        <div class="receipt-section-title">TRANSACTION DETAILS</div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Transaction ID</span>
+            <span class="receipt-value"><?php echo e($transaction->ref_id); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Date & Time</span>
+            <span class="receipt-value"><?php echo e($transaction->created_at->format('M d, Y h:i A')); ?></span>
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Status</span>
+            <span class="receipt-value" style="color: #48bb78;"><?php echo e(strtoupper($transaction->status)); ?></span>
+        </div>
+        
+        <?php if($transaction->charge > 0): ?>
+        <div class="receipt-row">
+            <span class="receipt-label">Transaction Fee</span>
+            <span class="receipt-value"><?php echo e($transaction->user->getFirstBalance()->getCurrency->currency_symbol); ?> <?php echo e(number_format($transaction->charge, 2)); ?></span>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Desktop Buttons -->
+    <div class="d-none d-lg-block mt-5">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <button onclick="window.print()" class="btn btn-outline-secondary btn-lg w-100">
+                    <i class="fas fa-print me-2"></i> Print Receipt
+                </button>
+            </div>
+            <div class="col-md-6">
+                <a href="<?php echo e(route('user.dashboard')); ?>" class="btn btn-lg w-100" style="background: #556B2F; color: white;">
+                    <i class="fas fa-home me-2"></i> Back to Dashboard
+                </a>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-@media print {
-    .header, .footer, .aside, #kt_header, #kt_footer, .btn, .bottom-nav {
-        display: none !important;
-    }
-    .card {
-        box-shadow: none !important;
-        border: 1px solid #ddd;
-    }
-}
-</style>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('user.menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\adv-banking\resources\views/user/transaction-receipt.blade.php ENDPATH**/ ?>

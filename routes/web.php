@@ -207,6 +207,7 @@ Route::controller(AdminController::class)->group(function () {
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('logout', [SettingController::class, 'logout'])->name('admin.logout');
     Route::view('dashboard', 'admin.dashboard.index', ['title' => 'Dashboard'])->name('admin.dashboard');
+    Route::post('user/{id}/toggle-block', [App\Http\Controllers\Admin\UserController::class, 'toggleBlock'])->name('admin.user.toggle.block');
 
     Route::controller(SettingController::class)->group(function () {
         Route::group(['middleware' => 'Admin:general_settings'], function () {

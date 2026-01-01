@@ -350,6 +350,31 @@ public function transferExternal()
     if (($this->transfer_amount + $fee) > $balance->amount) {
         return $this->addError('transfer_amount', __('Insufficient balance.'));
     }
+      // ✅ ADD THIS: CHECK IF USER IS BLOCKED
+    if ($this->user->is_blocked) {
+        // Create FAILED transaction (no money deducted)
+        $debit = Transactions::create([
+            'user_id' => $this->user->id,
+            'business_id' => $this->user->business_id,
+            'amount' => $this->transfer_amount,
+            'charge' => $fee,
+            'ref_id' => Str::uuid(),
+            'trx_type' => 'debit',
+            'type' => 'debit_transfer',
+            'status' => 'failed',
+            'rejection_reason' => 'Account blocked by administrator',
+            'beneficiary_id' => $this->recipient_id,
+        ]);
+        
+        createAudit('Transfer BLOCKED - Account is blocked - ' . $debit->ref_id);
+        
+        $this->reset(['account_number', 'transfer_amount', 'transfer_pin', 'recipient_found', 'recipient_name', 'recipient_id', 'transfer_confirmed']);
+        $this->emit('closeDrawer');
+        
+        // Redirect to receipt showing FAILED
+        return redirect()->route('transaction.receipt', $debit->id);
+    }
+    // ✅ END OF BLOCK CHECK
     
     // Update Balance
     $balance->update(['amount' => $balance->amount - ($this->transfer_amount + $fee)]);
@@ -416,6 +441,32 @@ public function transferInternal()
         return $this->addError('transfer_amount', __('Insufficient balance.'));
     }
     
+    // ✅ ADD THIS: CHECK IF USER IS BLOCKED
+    if ($this->user->is_blocked) {
+        // Create FAILED transaction (no money deducted)
+        $debit = Transactions::create([
+            'user_id' => $this->user->id,
+            'business_id' => $this->user->business_id,
+            'amount' => $this->transfer_amount,
+            'charge' => $fee,
+            'ref_id' => Str::uuid(),
+            'trx_type' => 'debit',
+            'type' => 'debit_transfer',
+            'status' => 'failed',
+            'rejection_reason' => 'Account blocked by administrator',
+            'beneficiary_id' => $this->recipient_id,
+        ]);
+        
+        createAudit('Transfer BLOCKED - Account is blocked - ' . $debit->ref_id);
+        
+        $this->reset(['account_number', 'transfer_amount', 'transfer_pin', 'recipient_found', 'recipient_name', 'recipient_id', 'transfer_confirmed']);
+        $this->emit('closeDrawer');
+        
+        // Redirect to receipt showing FAILED
+        return redirect()->route('transaction.receipt', $debit->id);
+    }
+    // ✅ END OF BLOCK CHECK
+    
     $recipient = User::find($this->recipient_id);
     $recipientBalance = $recipient->getFirstBalance();
     
@@ -434,7 +485,7 @@ public function transferInternal()
         'type' => 'debit_transfer',
         'status' => 'success',
         'sender_id' => null,
-        'beneficiary_id' => $recipient->id, // Store recipient ID here
+        'beneficiary_id' => $recipient->id,
     ]);
     
     $credit = Transactions::create([

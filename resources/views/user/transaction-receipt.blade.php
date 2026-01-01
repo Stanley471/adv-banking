@@ -161,6 +161,53 @@
         </p>
     </div>
 
+    <!-- Success/Failed Status Banner -->
+    @if($transaction->status == 'failed')
+        <!-- Failed Transaction Alert -->
+        <div class="text-center py-6" style="background: #fee2e2; border-radius: 12px; margin: 20px 0;">
+            <div class="d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: #fecaca; border-radius: 50%;">
+                <i class="fas fa-times-circle text-danger" style="font-size: 48px;"></i>
+            </div>
+            <h3 class="text-danger mt-4 mb-2 fw-bold">Transfer Failed!</h3>
+            
+            @if($transaction->rejection_reason && str_contains($transaction->rejection_reason, 'blocked'))
+                <!-- Blocked User Message -->
+                <div class="alert alert-danger mx-4 mt-4 p-4" style="border-left: 4px solid #dc3545; background: white;">
+                    <h4 class="fw-bold mb-3" style="color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Account Blocked
+                    </h4>
+                    <p class="mb-4" style="color: #2d3748;">Your account has been temporarily blocked. Please contact our support team for assistance.</p>
+                    <a href="{{route('user.ticket')}}" class="btn btn-danger btn-lg">
+                        <i class="fas fa-headset me-2"></i>Contact Support
+                    </a>
+                </div>
+            @else
+                <p class="text-danger fw-bold mt-3">{{$transaction->rejection_reason ?? 'Transaction could not be completed'}}</p>
+                <p class="text-danger">Please contact support if the issue persists.</p>
+                <i class=""></i>
+            @endif
+        </div>
+    @elseif($transaction->status == 'pending')
+        <!-- Pending Status -->
+        <div class="text-center py-4" style="background: #fef3c7; border-radius: 12px; margin: 20px 0;">
+            <div class="d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: #fcd34d; border-radius: 50%;">
+                <i class="fas fa-clock text-warning" style="font-size: 32px;"></i>
+            </div>
+            <h4 class="text-warning mt-3 mb-1 fw-bold">Transfer Pending</h4>
+            <p class="text-muted small mb-0">Your transfer is being processed</p>
+        </div>
+    @else
+        <!-- Success -->
+        <div class="text-center py-4" style="background: #e8f5e9; border-radius: 12px; margin: 20px 0;">
+            <div class="d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background: #a5d6a7; border-radius: 50%;">
+                <i class="fas fa-check-circle text-success" style="font-size: 32px;"></i>
+            </div>
+            <h4 class="text-success mt-3 mb-1 fw-bold">Transfer Successful!</h4>
+            <p class="text-muted small mb-0">Your money has been sent successfully</p>
+        </div>
+    @endif
+
     <!-- Sender Section -->
     <div class="receipt-section">
         <div class="receipt-section-title">SENDER</div>
@@ -182,58 +229,55 @@
     </div>
 
     <!-- Receiver Section -->
-    <!-- Receiver Section -->
-<div class="receipt-section">
-    <div class="receipt-section-title">RECEIVER</div>
-    
-    <div class="receipt-row">
-        <span class="receipt-label">Name</span>
-        @if($transaction->beneficiary_id && $transaction->beneficiary)
-            <span class="receipt-value">{{$transaction->beneficiary->recipient->first_name}} {{$transaction->beneficiary->recipient->last_name}}</span>
-        @else
-            @php
-                $recipient = \App\Models\User::find($transaction->beneficiary_id);
-            @endphp
-            <span class="receipt-value">{{$recipient->first_name ?? 'N/A'}} {{$recipient->last_name ?? ''}}</span>
-        @endif
+    <div class="receipt-section">
+        <div class="receipt-section-title">RECEIVER</div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Name</span>
+            @if($transaction->beneficiary_id && $transaction->beneficiary)
+                <span class="receipt-value">{{$transaction->beneficiary->recipient->first_name}} {{$transaction->beneficiary->recipient->last_name}}</span>
+            @else
+                @php
+                    $recipient = \App\Models\User::find($transaction->beneficiary_id);
+                @endphp
+                <span class="receipt-value">{{$recipient->first_name ?? 'N/A'}} {{$recipient->last_name ?? ''}}</span>
+            @endif
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Account Number</span>
+            @if($transaction->beneficiary_id && $transaction->beneficiary)
+                <span class="receipt-value">{{'******* '.substr($transaction->beneficiary->recipient->merchant_id ?? '0000', -4)}}</span>
+            @else
+                <span class="receipt-value">{{'******* '.substr($recipient->merchant_id ?? '0000', -4)}}</span>
+            @endif
+        </div>
+        
+        <div class="receipt-row">
+            <span class="receipt-label">Amount</span>
+            <span class="receipt-value receipt-amount">{{$transaction->user->getFirstBalance()->getCurrency->currency_symbol}} {{number_format($transaction->amount, 2)}}</span>
+        </div>
     </div>
-    
-    <div class="receipt-row">
-        <span class="receipt-label">Account Number</span>
-        @if($transaction->beneficiary_id && $transaction->beneficiary)
-            <span class="receipt-value">{{'******* '.substr($transaction->beneficiary->recipient->merchant_id ?? '0000', -4)}}</span>
-        @else
-            <span class="receipt-value">{{'******* '.substr($recipient->merchant_id ?? '0000', -4)}}</span>
-        @endif
-    </div>
-    
-    <div class="receipt-row">
-        <span class="receipt-label">Amount</span>
-        <span class="receipt-value receipt-amount">{{$transaction->user->getFirstBalance()->getCurrency->currency_symbol}} {{number_format($transaction->amount, 2)}}</span>
-    </div>
-</div>
 
     <!-- Receiver Bank Details -->
-    @if($transaction->beneficiary && $transaction->beneficiary->recipient)
     <div class="receipt-section">
         <div class="receipt-section-title">RECEIVER BANK DETAILS</div>
         
         <div class="receipt-row">
             <span class="receipt-label">Bank</span>
-            <span class="receipt-value">{{$transaction->beneficiary->bank_name ?? 'N/A'}}</span>
+            <span class="receipt-value">{{$set->site_name}}</span>
         </div>
         
         <div class="receipt-row">
             <span class="receipt-label">Address</span>
-            <span class="receipt-value">{{$transaction->beneficiary->bank_address ?? 'N/A'}}</span>
+            <span class="receipt-value">{{$set->address}}</span>
         </div>
         
         <div class="receipt-row">
             <span class="receipt-label">Routing</span>
-            <span class="receipt-value">{{$transaction->beneficiary->routing ?? 'N/A'}}</span>
+            <span class="receipt-value">Internal Transfer</span>
         </div>
     </div>
-    @endif
 
     <!-- Transaction Details -->
     <div class="receipt-section">
@@ -251,8 +295,21 @@
         
         <div class="receipt-row">
             <span class="receipt-label">Status</span>
-            <span class="receipt-value" style="color: #48bb78;">{{strtoupper($transaction->status)}}</span>
+            <span class="receipt-value" style="color: 
+                @if($transaction->status == 'success') #48bb78
+                @elseif($transaction->status == 'pending') #f59e0b
+                @else #ef4444 @endif;">
+                {{strtoupper($transaction->status)}}
+            </span>
         </div>
+
+        <!-- Show rejection reason if failed -->
+        @if($transaction->status == 'failed' && $transaction->rejection_reason)
+        <div class="receipt-row">
+            <span class="receipt-label">Reason</span>
+            <span class="receipt-value" style="color: #ef4444; font-size: 12px;">{{$transaction->rejection_reason}}</span>
+        </div>
+        @endif
         
         @if($transaction->charge > 0)
         <div class="receipt-row">

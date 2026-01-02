@@ -1,7 +1,6 @@
 <div>
     
    
-    
                    <?php if($set->money_transfer): ?>
 <div wire:ignore.self id="kt_transfer_money" class="bg-white" data-kt-drawer="true" data-kt-drawer-activate="true" data-kt-drawer-toggle="#kt_transfer_money_button" data-kt-drawer-close="#kt_transfer_money_close" data-kt-drawer-width="{'md': '500px'}">
     <div class="card w-100">
@@ -451,12 +450,14 @@
     <div class="nested-card">
         <div class="nested-card-inner">
             <div class="icon-grid">
-                <a href="#" class="icon-item" id="kt_send_money_button">
+                  
+                <a class="icon-item" id="kt_transfer_money_button">
                     <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
                         <i class="fas fa-share" style="color: white !important; font-size: 30px;"></i>
                     </div>
                     <div class="icon-label">Wire<br>Transfer</div>
                 </a>
+              
                 
                 <a href="#" class="icon-item" id="kt_transfer_money_button">
                     <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
@@ -474,21 +475,21 @@
             </div>
             <!-- Third Row: Savings Statement, Checking Statement, Credit Card -->
 <div class="icon-grid">
-    <a href="#" class="icon-item">
+    <a href="<?php echo e(route('user.transactions')); ?>" class="icon-item">
         <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
             <i class="fas fa-list-alt" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Savings<br>Statement</div>
     </a>
     
-    <a href="#" class="icon-item">
+    <a href="<?php echo e(route('user.transactions')); ?>" class="icon-item">
         <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
             <i class="fas fa-bars" style="color: white !important; font-size: 30px;"></i>
         </div>
         <div class="icon-label">Checking<br>Statement</div>
     </a>
     
-    <a href="#" class="icon-item">
+    <a href="<?php echo e(route('user.transactions')); ?>" class="icon-item">
         <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
             <i class="fas fa-credit-card" style="color: white !important; font-size: 30px;"></i>
         </div>
@@ -516,7 +517,7 @@
     </a>
     <?php endif; ?>
     
-    <a href="#" class="icon-item">
+    <a href="<?php echo e(route('blog')); ?>" class="icon-item">
         <div class="icon-box" style="width: 70px; height: 70px; background: #556B2F;">
             <i class="fas fa-lightbulb" style="color: white !important; font-size: 30px;"></i>
         </div>
